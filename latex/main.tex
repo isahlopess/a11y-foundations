@@ -1,0 +1,117 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{\textbf{Acessibilidade em Sistemas Digitais:}\\Garantindo a Inclusão Digital para Pessoas com Deficiência Visual e Motora}
+\author{
+  \textbf{Isadora Fernandes Lopes} \quad \textbf{Natan Benites Arinos} \\[0.2cm]
+  \small Curso: \textbf{Engenharia de Computação} \\[0.1cm]
+  \small Disciplina: Introdução à Computação \\[0.1cm]
+  \small Docente: Profª. Dra. Graziela Santos de Araujo \\[0.1cm]
+  \small Faculdade de Computação (FACOM) -- Universidade Federal de Mato Grosso do Sul (UFMS)
+}
+\date{Novembro de 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Este trabalho acadêmico apresenta uma investigação teórica e o desenvolvimento de um produto prático de extensão universitária voltado à acessibilidade em sistemas digitais, sob a perspectiva da Engenharia de Computação, com foco nas necessidades específicas de pessoas com deficiência visual e motora. A partir da integração entre camadas de hardware assistivo (interfaces USB HID, terminais braille dinâmicos e acionadores mecânicos) e camadas de software semântico (HTML5, CSS responsivo e manipulação da Árvore de Acessibilidade AOM), concebeu-se o projeto \textit{a11y-foundations}. O artefato consiste em uma aplicação web interativa dotada de menu lateral de personalização, calculadora matemática de contraste em tempo real (WCAG 2.2), simulador de navegação por teclado e conformidade com o padrão eMAG v3.1. Discutem-se a conexão direta com a formação em Engenharia de Computação, as diretrizes da Lei Brasileira de Inclusão (Lei nº 13.146/2015) e o compromisso ético de transparência quanto ao uso de ferramentas de Inteligência Artificial.
+\end{abstract}
+
+\vspace{0.3cm}
+\noindent\textbf{Palavras-chave:} Engenharia de Computação; Acessibilidade Digital; WCAG 2.2; Deficiência Visual; Deficiência Motora; Protocolo HID; HTML5 Semântico.
+
+\section{Parte 1 -- Fundamentação da Pesquisa}
+
+\subsection{Tema e Justificativa na Engenharia de Computação}
+A consolidação da tecnologia como esteio da sociedade moderna exige que os sistemas computacionais sejam concebidos sob o princípio do Acesso Universal. No curso de Engenharia de Computação, o profissional atua na integração sinérgica entre hardware e software. Nesse contexto, a acessibilidade digital não pode ser tratada como um mero adorno cosmético de interface gráfica, mas sim como uma propriedade intrínseca da arquitetura do sistema: desde a captura de sinais em periféricos de entrada (Human Interface Devices - HID) até o processamento no sistema operacional e a renderização em motores web.
+
+No Brasil, o Estatuto da Pessoa com Deficiência (Lei nº 13.146/2015, Art. 63) determina que é compulsória a acessibilidade nos sítios da internet. Engenheiros de Computação conscientes dessas exigências projetam soluções com custo de manutenção reduzido, conformidade legal, alto desempenho computacional e total dignidade aos usuários com limitações funcionais permanentes, temporárias ou situacionais.
+
+\subsection{Pergunta de Pesquisa}
+\begin{quote}
+\textit{“De que maneira a articulação entre padrões semânticos de software (HTML5/CSS), orientados pela WCAG 2.2, e dispositivos físicos de interface humana (HID) viabiliza a autonomia plena e a inclusão digital para pessoas com deficiência visual e motora?”}
+\end{quote}
+
+\section{Desenvolvimento da Pesquisa e Base Teórica}
+
+\subsection{Marco Regulatório e Normas Vigentes}
+A pesquisa ancora-se em três esteios documentais:
+\begin{itemize}
+    \item \textbf{WCAG 2.2 (W3C/WAI):} Padrão global estruturado nos princípios POUR:
+    \begin{itemize}
+        \item \textit{Perceptível:} Informações e componentes acessíveis a múltiplos sentidos (visual, tátil e auditivo).
+        \item \textit{Operável:} Todos os comandos executáveis sem dependência do mouse.
+        \item \textit{Compreensível:} Previsibilidade de operação e navegação sem ambiguidades.
+        \item \textit{Robusto:} Interpretação estável por navegadores e tecnologias assistivas diversas.
+    \end{itemize}
+    \item \textbf{eMAG v3.1:} O Modelo de Acessibilidade em Governo Eletrônico brasileiro \cite{emag_brasil}.
+    \item \textbf{Lei Brasileira de Inclusão (LBI - Lei 13.146/2015):} Marco regulatório civil de equiparação de oportunidades \cite{lbi_lei13146}.
+\end{itemize}
+
+\subsection{Engenharia de Dispositivos e Aplicação para Deficiência Visual}
+Usuários cegos utilizam sintetizadores de tela (NVDA) ou terminais de braille dinâmico. Sob a ótica de sistemas:
+\begin{enumerate}
+    \item \textbf{Árvore de Acessibilidade (AOM):} O motor do navegador compila o DOM em uma árvore de acessibilidade nativa paralela, transmitindo papéis (\textit{roles}) e estados para a API do sistema operacional. O uso estrito de HTML5 semântico é fundamental para que esse fluxo de dados não seja interrompido.
+    \item \textbf{Linhas Braille e Atuadores Piezoelétricos:} Dispositivos eletromecânicos conectados via USB serial recebem blocos textuais e acionam pinos em relevo, exigindo precisão na semântica de marcação de texto.
+    \item \textbf{Razão de Contraste Matemático:} Aplicação da fórmula de luminância relativa da WCAG para garantir legibilidade superior a 4.5:1 (nível AA) e 7.0:1 (nível AAA).
+\end{enumerate}
+
+\subsection{Engenharia de Dispositivos e Aplicação para Deficiência Motora}
+Pessoas com tremores crônicos, tetraplegia ou paralisia cerebral empregam periféricos dedicados:
+\begin{enumerate}
+    \item \textbf{Acionadores de Pressão (*Switches*) e Protocolo HID:} O hardware assistivo detecta o fechamento de contatos físicos e gera interrupções de hardware (IRQ), emulando as teclas \texttt{Tab}, \texttt{Enter} e \texttt{Espaço}.
+    \item \textbf{Visibilidade do Foco (\texttt{:focus-visible}):} É inadmissível anular o anel de foco (\texttt{outline: none}). A interface deve fornecer retorno visual destacado com alto contraste.
+    \item \textbf{Prevenção de Armadilhas (*No Keyboard Trap*):} Modais devem permitir escape imediato com a tecla \texttt{Escape}, devolvendo o foco ao elemento originário.
+    \item \textbf{Área Mínima de Toque (Target Size):} Respeito ao critério 2.5.8 da WCAG 2.2 (mínimo de 44x44 pixels) para mitigar disparos acidentais provocados por espasmos musculares.
+\end{enumerate}
+
+\section{Análise Crítica e Relação com a Engenharia de Computação}
+
+\subsection{Benefícios, Limitações e Riscos}
+A integração precoce da acessibilidade no ciclo de vida de desenvolvimento produz código desacoplado, manutenível e veloz. O risco crítico decorre da formação de engenheiros alheios à diversidade humana, gerando sistemas públicos e privados inacessíveis que excluem 18,6 milhões de cidadãos brasileiros de serviços essenciais.
+
+\subsection{Conexão com a Disciplina de Introdução à Computação}
+Na Faculdade de Computação da UFMS, a disciplina de Introdução à Computação desempenha o papel fundacional de orientar a conduta técnica e ética dos ingressantes de Engenharia de Computação. Este trabalho demonstra que a excelência da engenharia reside na capacidade de construir sistemas universais, em que o hardware e o software convergem para a emancipação humana.
+
+\section{Transparência no Uso de Ferramentas de Inteligência Artificial}
+Em cumprimento às normas de integridade acadêmica:
+\begin{itemize}
+    \item \textbf{Ferramentas Utilizadas:} Foi consultado assistente de inteligência artificial generativa em caráter estritamente instrumental de apoio.
+    \item \textbf{Etapas de Aplicação:} O assistente foi utilizado para apoiar no refinamento da sintaxe matemática do cálculo de contraste e na estruturação do esqueleto do documento LaTeX.
+    \item \textbf{Limitações, Riscos e Verificação Humana:} IAs generativas frequentemente sugerem marcações ARIA redundantes e alucinações técnicas. Todas as fórmulas, diretrizes normativas, testes práticos com o leitor NVDA e scripts da aplicação web foram integralmente revisados, validados e testados pelos autores discentes (Isadora Fernandes Lopes e Natan Benites Arinos). A responsabilidade final e a autoria intelectual são exclusivas da equipe.
+\end{itemize}
+
+\section{Ficha Documental do Produto de Extensão}
+\begin{itemize}
+    \item \textbf{Título do Produto:} \textit{a11y-foundations: Acessibilidade em Sistemas Digitais}
+    \item \textbf{Autores:} Isadora Fernandes Lopes \& Natan Benites Arinos
+    \item \textbf{Curso / Unidade:} Engenharia de Computação -- FACOM / UFMS
+    \item \textbf{Docente Responsável:} Profª. Dra. Graziela Santos de Araujo
+    \item \textbf{Público-Alvo:} Calouros de Engenharia de Computação, desenvolvedores de software e a comunidade acadêmica.
+    \item \textbf{Licença de Uso:} Licença Aberta \textit{MIT License}.
+    \item \textbf{Repositório Oficial:} \url{https://github.com/isahlopess/a11y-foundations}
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{referencias}
+
+\end{document}
