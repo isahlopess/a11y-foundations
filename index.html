@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guia de Acessibilidade em Sistemas Digitais: Inclusão digital para pessoas com deficiência visual e motora. UFMS - Engenharia de Computação.">
+  <meta name="author" content="Isadora Fernandes Lopes e Natan Benites Arinos">
+  <title>Acessibilidade em Sistemas Digitais | Engenharia de Computação UFMS</title>
+
+  <link rel="icon" type="image/png" href="assets/img/logo-acessibilidade.png">
+  <link rel="apple-touch-icon" href="assets/img/logo-acessibilidade.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="scroll-progress-container" aria-hidden="true">
+    <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+  </div>
+
+  <a href="#conteudo-principal" class="skip-link">
+    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Pular direto para o conteúdo principal
+  </a>
+  <a href="#menu-principal" class="skip-link">
+    <i class="fa-solid fa-bars" aria-hidden="true"></i> Pular para o menu de navegação
+  </a>
+
+  <div id="global-a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;"></div>
+
+  <button type="button"
+          id="btn-open-a11y-drawer"
+          class="a11y-floating-trigger"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="a11y-lateral-drawer"
+          title="Abrir painel de preferências de acessibilidade">
+    <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
+    <span>Acessibilidade</span>
+  </button>
+
+  <div id="a11y-drawer-backdrop" class="a11y-drawer-backdrop" aria-hidden="true"></div>
+
+  <aside id="a11y-lateral-drawer"
+         class="a11y-drawer"
+         role="dialog"
+         aria-modal="true"
+         aria-hidden="true"
+         aria-labelledby="drawer-heading">
+
+    <div class="drawer-header">
+      <h2 id="drawer-heading" class="drawer-title">
+        <i class="fa-solid fa-sliders" aria-hidden="true"></i> Preferências Visuais
+      </h2>
+      <button type="button" id="btn-close-a11y-drawer" class="btn-close-drawer" aria-label="Fechar painel de acessibilidade">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+
+      <section class="drawer-group" aria-labelledby="group-contrast-title">
+        <h3 id="group-contrast-title" class="drawer-group-title">
+          <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> Modos de Contraste
+        </h3>
+        <div class="drawer-controls-grid">
+          <button type="button" id="tool-high-contrast" class="drawer-btn" aria-pressed="false">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+            <span>Alto Contraste</span>
+          </button>
+          <button type="button" id="tool-monochrome" class="drawer-btn" aria-pressed="false">
+            <i class="fa-solid fa-eye-low-vision" aria-hidden="true"></i>
+            <span>Monocromático</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="drawer-group" aria-labelledby="group-typo-title">
+        <h3 id="group-typo-title" class="drawer-group-title">
+          <i class="fa-solid fa-text-height" aria-hidden="true"></i> Tamanho do Texto
+        </h3>
+        <div class="drawer-controls-grid">
+          <button type="button" id="tool-font-dec" class="drawer-btn" aria-label="Diminuir tamanho da fonte">
+            <i class="fa-solid fa-minus" aria-hidden="true"></i>
+            <span>Diminuir (A-)</span>
+          </button>
+          <button type="button" id="tool-font-reset" class="drawer-btn" aria-label="Restaurar tamanho padrão da fonte">
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+            <span>Padrão (100%)</span>
+          </button>
+          <button type="button" id="tool-font-inc" class="drawer-btn" aria-label="Aumentar tamanho da fonte">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            <span>Aumentar (A+)</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="drawer-group" aria-labelledby="group-aids-title">
+        <h3 id="group-aids-title" class="drawer-group-title">
+          <i class="fa-solid fa-glasses" aria-hidden="true"></i> Auxílios de Leitura
+        </h3>
+        <div class="drawer-controls-grid">
+          <button type="button" id="tool-spacious-text" class="drawer-btn" aria-pressed="false">
+            <i class="fa-solid fa-align-justify" aria-hidden="true"></i>
+            <span>Espaçamento Amplo</span>
+          </button>
+          <button type="button" id="tool-highlight-links" class="drawer-btn" aria-pressed="false">
+            <i class="fa-solid fa-link" aria-hidden="true"></i>
+            <span>Destacar Links</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="drawer-footer">
+      <p><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Controles em conformidade com as diretrizes <strong>WCAG 2.2</strong>.</p>
+    </div>
+  </aside>
+
+  <header role="banner">
+
+    <div class="institutional-topbar">
+      <div class="institutional-topbar-inner">
+        <div class="inst-left">
+          <span class="inst-item">
+            <i class="fa-solid fa-landmark" aria-hidden="true"></i>
+            <strong>UFMS</strong> — Universidade Federal de Mato Grosso do Sul
+          </span>
+          <span class="course-badge-highlight">
+            <i class="fa-solid fa-microchip" aria-hidden="true"></i>
+            Engenharia de Computação (FACOM)
+          </span>
+        </div>
+        <div class="inst-right">
+          <span class="inst-item">
+            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+            Docente: <strong>Profª. Dra. Graziela Santos de Araujo</strong>
+          </span>
+          <span class="inst-item">
+            <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+            Discentes: <strong>Isadora Fernandes Lopes e Natan Benites Arinos</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <nav id="menu-principal" class="main-navbar" aria-label="Navegação Global do Guia">
+      <div class="main-navbar-inner">
+        <a href="#hero" class="nav-brand">
+          <img src="assets/img/logo-acessibilidade.png" alt="Logotipo Oficial do projeto a11y-foundations" class="brand-logo-img">
+          <div class="brand-text">
+            <h1>a11y-foundations</h1>
+            <span>Engenharia de Computação • AV2 Extensão</span>
+          </div>
+        </a>
+
+        <ul class="nav-links-list" role="list">
+          <li><a href="#o-que-e" class="nav-anchor"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> O que é?</a></li>
+          <li><a href="#para-quem-e" class="nav-anchor"><i class="fa-solid fa-users" aria-hidden="true"></i> Para quem é?</a></li>
+          <li><a href="#hardware-assistivo" class="nav-anchor"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Hardware e Dispositivos</a></li>
+          <li><a href="#por-que-importa" class="nav-anchor"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Por que importa?</a></li>
+          <li><a href="#calculadora-contraste" class="nav-anchor"><i class="fa-solid fa-palette" aria-hidden="true"></i> Calculadora</a></li>
+          <li><a href="#simulador-teclado" class="nav-anchor"><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Simulador</a></li>
+          <li><a href="#laboratorio" class="nav-anchor"><i class="fa-solid fa-flask" aria-hidden="true"></i> Laboratório</a></li>
+          <li><a href="#auditoria" class="nav-anchor"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Auditoria</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <section id="hero" class="hero-section reveal-on-scroll" aria-labelledby="hero-heading">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-tag">
+          <i class="fa-solid fa-microchip" aria-hidden="true"></i> Engenharia de Computação • Introdução à Computação
+        </div>
+        <h2 id="hero-heading" class="hero-title">
+          Acessibilidade em Sistemas Digitais: <br>
+          <span class="highlight">Garantindo a Inclusão Digital para Pessoas com Deficiência Visual e Motora</span>
+        </h2>
+        <p class="hero-lead">
+          Na Engenharia de Computação, a acessibilidade conecta o hardware ao software: desde a integração de periféricos HID e terminais Braille até a estruturação semântica do DOM segundo as normas internacionais da <strong>WCAG 2.2</strong> e do <strong>eMAG</strong>.
+        </p>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-card">
+            <div class="hero-stat-number"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> 18,6M</div>
+            <div class="hero-stat-label">Brasileiros com alguma deficiência (IBGE)</div>
+          </div>
+          <div class="hero-stat-card">
+            <div class="hero-stat-number"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> &lt; 2%</div>
+            <div class="hero-stat-label">Sítios nacionais com conformidade WCAG</div>
+          </div>
+          <div class="hero-stat-card">
+            <div class="hero-stat-number"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> 100%</div>
+            <div class="hero-stat-label">Navegabilidade por teclado nesta aplicação</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="browser-mockup">
+          <div class="browser-mockup-bar">
+            <div class="browser-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="browser-address-bar">
+              <i class="fa-solid fa-lock" aria-hidden="true"></i>
+              <span>https://facom.ufms.br/a11y-foundations</span>
+            </div>
+          </div>
+          <div class="browser-mockup-body">
+            <img src="assets/img/header-terminal-braille.jpg"
+                 alt="Estudante de Engenharia de Computação utilizando um terminal Braille dinâmico com pinos táteis conectado ao laptop em bancada de desenvolvimento de software."
+                 class="browser-img"
+                 loading="lazy">
+            <div class="browser-mockup-caption">
+              <i class="fa-solid fa-microchip" aria-hidden="true"></i>
+              <span>Hardware Assistivo: Terminal Braille dinâmico integrado via barramento USB a computador de engenharia.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main id="conteudo-principal" tabindex="-1">
+
+    <section id="o-que-e" class="section-container reveal-on-scroll" aria-labelledby="heading-oque">
+      <div class="section-header-block">
+        <span class="section-pill"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> Arquitetura de Sistemas</span>
+        <h2 id="heading-oque" class="section-main-heading">O que é Acessibilidade Digital?</h2>
+        <p class="section-lead-text">
+          Na Engenharia de Computação, acessibilidade é o <strong>pipeline determinístico</strong> que transforma entradas de dados alternativas (teclado mecânico, acionadores, sopro) e saídas não-visuais (áudio sintetizado, relevo tátil piezoelétrico) em interações com igual eficácia e precisão.
+        </p>
+      </div>
+
+      <div class="pipeline-track">
+        <div class="pipeline-step">
+          <div class="pipeline-step-header">
+            <div class="pipeline-step-number">1</div>
+            <span class="pipeline-eng-tag">Camada Software</span>
+          </div>
+          <h3>Código Semântico</h3>
+          <p>
+            O engenheiro de software utiliza tags nativas do padrão HTML5 (<code>&lt;button&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>) em vez de aglomerados de divs genéricas.
+          </p>
+        </div>
+
+        <div class="pipeline-step">
+          <div class="pipeline-step-header">
+            <div class="pipeline-step-number">2</div>
+            <span class="pipeline-eng-tag">Árvore AOM</span>
+          </div>
+          <h3>Accessibility Object Model</h3>
+          <p>
+            O navegador processa o DOM e compila a <em>Accessibility Tree</em>, atribuindo nomes, papéis (roles), estados e propriedades acessíveis a cada nó da interface.
+          </p>
+        </div>
+
+        <div class="pipeline-step">
+          <div class="pipeline-step-header">
+            <div class="pipeline-step-number">3</div>
+            <span class="pipeline-eng-tag">Protocolo HID</span>
+          </div>
+          <h3>Tecnologia Assistiva</h3>
+          <p>
+            O sistema operacional canaliza os nós da árvore para drivers de sintetizadores de voz (NVDA) ou interfaces seriais de displays táteis em braille.
+          </p>
+        </div>
+
+        <div class="pipeline-step">
+          <div class="pipeline-step-header">
+            <div class="pipeline-step-number">4</div>
+            <span class="pipeline-eng-tag">Resultado</span>
+          </div>
+          <h3>Autonomia Humana</h3>
+          <p>
+            O usuário com deficiência visual ou motora interage, submete formulários e consome informações com independência e equivalência de tempo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="para-quem-e" class="section-container reveal-on-scroll" aria-labelledby="heading-paraquem">
+      <div class="section-header-block">
+        <span class="section-pill"><i class="fa-solid fa-users-rays" aria-hidden="true"></i> Interação Humano-Computador</span>
+        <h2 id="heading-paraquem" class="section-main-heading">Para quem é a Acessibilidade?</h2>
+        <p class="section-lead-text">
+          Embora beneficie a sociedade como um todo, nosso projeto aprofunda-se no suporte rigoroso a dois perfis com necessidades críticas de engenharia de software e hardware:
+        </p>
+      </div>
+
+      <div class="personas-grid">
+
+        <article class="persona-card">
+          <div class="persona-header">
+            <div class="persona-avatar">
+              <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+            </div>
+            <div class="persona-title">
+              <h3>Marcos, 21 anos</h3>
+              <span>Acadêmico de Computação • Deficiência Visual Total</span>
+            </div>
+          </div>
+
+          <div class="assistive-speech-mockup">
+            <span class="assistive-speech-mockup-tag"><i class="fa-solid fa-volume-high" aria-hidden="true"></i> Saída Sintetizada NVDA</span>
+            <p style="margin: 0;">
+              "Marco principal. Título nível 2: 'Inscrição na Disciplina'. Botão acionável: 'Confirmar Envio'. Pressione Enter para ativar."
+            </p>
+          </div>
+
+          <ul class="persona-features-list" role="list">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Navega utilizando fones de ouvido em velocidade de fala 3x mais rápida.</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Salta seções através de atalhos de cabeçalhos (tecla <code>H</code> no NVDA).</li>
+            <li><i class="fa-solid fa-xmark" aria-hidden="true"></i> Fica bloqueado diante de imagens sem <code>alt</code> ou botões falsos feitos com <code>&lt;div&gt;</code>.</li>
+          </ul>
+        </article>
+
+        <article class="persona-card">
+          <div class="persona-header">
+            <div class="persona-avatar">
+              <i class="fa-solid fa-hand-holding-hand" aria-hidden="true"></i>
+            </div>
+            <div class="persona-title">
+              <h3>Helena, 28 anos</h3>
+              <span>Engenheira de Sistemas • Tremores Crônicos e Paralisia</span>
+            </div>
+          </div>
+
+          <div class="assistive-speech-mockup" style="border-left-color: #10b981;">
+            <span class="assistive-speech-mockup-tag" style="background-color: #059669;"><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Entrada via Teclado Mecânico</span>
+            <p style="margin: 0;">
+              [Tab] -> Foco no Menu [Tab] -> Foco no Campo 'E-mail' [Espaço] -> Marca Checkbox [Enter] -> Dispara Formulário
+            </p>
+          </div>
+
+          <ul class="persona-features-list" role="list">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Não usa mouse: opera 100% via teclado mecânico com keycaps grandes ou switch de pressão.</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Exige anel de foco ultra visível para localizar instantaneamente a posição ativa.</li>
+            <li><i class="fa-solid fa-xmark" aria-hidden="true"></i> Sofre com fadiga severa diante de botões minúsculos (&lt; 44px) ou se o CSS anular o <code>outline</code>.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="hardware-assistivo" class="section-container reveal-on-scroll" aria-labelledby="heading-hardware">
+      <div class="section-header-block">
+        <span class="section-pill"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Engenharia e Dispositivos</span>
+        <h2 id="heading-hardware" class="section-main-heading">Hardware Assistivo: A Conexão com a Engenharia de Computação</h2>
+        <p class="section-lead-text">
+          Acessibilidade conecta o circuito físico ao navegador: dispositivos de interface humana (USB HID), firmware dedicado e microcontroladores na inclusão:
+        </p>
+      </div>
+
+      <div class="assistive-hardware-gallery">
+
+        <article class="hardware-card">
+          <img src="assets/img/terminal-braille-dinamico.jpg"
+               alt="Terminal Braille dinâmico moderno com pinos táteis piezoelétricos conectados via cabo USB a um computador em bancada de Engenharia de Computação."
+               class="hardware-img"
+               loading="lazy">
+          <div class="hardware-info">
+            <span class="hardware-badge"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Hardware • Interface Serial / USB</span>
+            <h3>Linhas Braille e Atuadores Piezoelétricos</h3>
+            <p>
+              Terminais braille dinâmicos convertem caracteres e marcadores estruturais do HTML em pinos físicos acionados eletromecanicamente por cerâmicas piezoelétricas, permitindo leitura tátil em tempo real por estudantes cegos.
+            </p>
+            <div class="hardware-footer">
+              Conexão Engenharia: Transmissão de pacotes de dados HID e conversão de caracteres Unicode/Braille.
+            </div>
+          </div>
+        </article>
+
+        <article class="hardware-card">
+          <img src="assets/img/hardware-assistivo-motor.jpg"
+               alt="Bancada de engenharia com teclado mecânico ergonômico dividido e grandes botões coloridos de acionamento assistivo (switches) conectados à controladora."
+               class="hardware-img"
+               loading="lazy">
+          <div class="hardware-info">
+            <span class="hardware-badge"><i class="fa-solid fa-plug" aria-hidden="true"></i> Hardware • Dispositivo de Entrada HID</span>
+            <h3>Acionadores de Pressão (Switches) e Teclados Mecânicos</h3>
+            <p>
+              Para usuários com tetraplegia ou tremores crônicos, sensores de pressão mecânica substituem o clique do mouse. O firmware converte o fechamento do circuito na interrupção de tecla (como o <code>Tab</code> e o <code>Enter</code>).
+            </p>
+            <div class="hardware-footer">
+              Conexão Engenharia: Interrupções de hardware (IRQ), debounce de sinal elétrico e mapeamento de periféricos USB.
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="por-que-importa" class="section-container reveal-on-scroll" aria-labelledby="heading-porque">
+      <div class="section-header-block">
+        <span class="section-pill"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Legislação e Excelência</span>
+        <h2 id="heading-porque" class="section-main-heading">Por que a Acessibilidade é Vital?</h2>
+        <p class="section-lead-text">
+          A obrigatoriedade legal soma-se ao rigor técnico de software e ao impacto civil fundamental:
+        </p>
+      </div>
+
+      <div class="bento-grid">
+        <div class="bento-card highlighted">
+          <h3 style="margin-top: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 0.6rem;">
+            <i class="fa-solid fa-gavel" style="color: var(--primary);" aria-hidden="true"></i> Lei nº 13.146/2015 (LBI) — Artigo 63
+          </h3>
+          <p style="font-size: 1.05rem; line-height: 1.65; color: var(--text-muted);">
+            A legislação federal brasileira estabelece como <strong>obrigatória</strong> a acessibilidade nos sítios da internet mantidos por órgãos governamentais e por empresas com representação no país. A violação acarreta penalidades por discriminação perante o Ministério Público.
+          </p>
+
+          <div class="law-stamp-box">
+            <i class="fa-solid fa-file-contract" aria-hidden="true"></i>
+            <div>
+              <strong>Conformidade Obrigatória no Brasil:</strong>
+              <p style="margin: 0.25rem 0 0 0; font-size: 0.95rem; color: var(--text-muted);">
+                Adotar o modelo <strong>eMAG v3.1</strong> e o nível <strong>WCAG AA</strong> é requisito compulsório de contratação e sustentabilidade de software.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card">
+          <h3 style="margin-top: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 0.6rem;">
+            <i class="fa-solid fa-cubes-stacked" style="color: var(--accent);" aria-hidden="true"></i> Engenharia e Otimização
+          </h3>
+          <p style="color: var(--text-muted); line-height: 1.6;">
+            Acessibilidade e SEO compartilham os mesmos fundamentos de engenharia. Mecanismos de busca indexam websites de modo análogo a um leitor de tela: avaliam a hierarquia estrutural de cabeçalhos (<code>&lt;h1&gt;</code> a <code>&lt;h6&gt;</code>), leem textos em <code>alt</code> e premiam códigos semânticos velozes e sem erros.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculadora-contraste" class="section-container reveal-on-scroll" aria-labelledby="heading-calc">
+      <div class="section-header-block">
+        <span class="section-pill"><i class="fa-solid fa-palette" aria-hidden="true"></i> Laboratório Matemático WCAG 2.2</span>
+        <h2 id="heading-calc" class="section-main-heading">Calculadora Interativa de Contraste Cromático</h2>
+        <p class="section-lead-text">
+          A fórmula matemática da WCAG calcula a razão de luminância relativa entre duas cores. Experimente selecionar as cores abaixo e veja a nota de conformidade em tempo real:
+        </p>
+      </div>
+
+      <div class="interactive-tool-canvas">
+        <div class="contrast-tool-grid">
+          <div class="contrast-inputs-group">
+            <div class="color-picker-row">
+              <div>
+                <strong><i class="fa-solid fa-pen-nib" aria-hidden="true"></i> Cor do Texto (Foreground):</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Escolha a cor aplicada nas fontes.</p>
+              </div>
+              <input type="color" id="calc-text-color" class="color-input-field" value="#0f172a" aria-label="Selecione a cor do texto">
+            </div>
+
+            <div class="color-picker-row">
+              <div>
+                <strong><i class="fa-solid fa-fill-drip" aria-hidden="true"></i> Cor do Fundo (Background):</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Escolha a cor da superfície do componente.</p>
+              </div>
+              <input type="color" id="calc-bg-color" class="color-input-field" value="#ffffff" aria-label="Selecione a cor de fundo">
+            </div>
+          </div>
+
+          <div id="calc-preview-container" class="contrast-result-display">
+            <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+              Razão de Luminância Calculada:
+            </div>
+            <div id="calc-ratio-value" class="contrast-ratio-number">15.80:1</div>
+            <div class="contrast-verdict-badges">
+              <span id="calc-badge-aa" class="pill-status pass">WCAG AA: APROVADO</span>
+              <span id="calc-badge-aaa" class="pill-status pass">WCAG AAA: APROVADO</span>
+            </div>
+            <p style="margin: 0; font-size: 0.88rem; opacity: 0.9;">
+              Exemplo de visualização com as cores selecionadas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="simulador-teclado" class="section-container reveal-on-scroll" aria-labelledby="heading-sim">
+      <div class="section-header-block" style="text-align: center;">
+        <span class="section-pill"><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Engenharia de Entrada HID</span>
+        <h2 id="heading-sim" class="section-main-heading">Simulador Interativo de Navegação por Teclado</h2>
+        <p class="section-lead-text" style="margin: 0 auto;">
+          Pessoas com deficiência motora não usam mouse. Utilize os botões do simulador abaixo ou o seu teclado mecânico para observar o deslocamento do anel de foco centralizado e o disparo de ações com alerta personalizado:
+        </p>
+      </div>
+
+      <div class="keyboard-simulator-box">
+
+        <div id="sim-custom-toast" class="sim-custom-toast" role="status" aria-live="polite" hidden>
+          <div class="sim-toast-content">
+            <div class="sim-toast-body">
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              <div>
+                <strong style="display: block; font-size: 1rem;">Sinal de Entrada Confirmado!</strong>
+                <span id="sim-toast-desc" style="font-size: 0.9rem; color: #cbd5e1;"></span>
+              </div>
+            </div>
+            <button type="button" id="btn-close-sim-toast" class="btn-close-toast" aria-label="Fechar aviso">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="key-sim-toolbar">
+          <button type="button" id="sim-key-tab" class="sim-key-btn">
+            <i class="fa-solid fa-right-long" aria-hidden="true"></i> [TAB] Avançar Foco
+          </button>
+          <button type="button" id="sim-key-shifttab" class="sim-key-btn">
+            <i class="fa-solid fa-left-long" aria-hidden="true"></i> [Shift + TAB] Recuar
+          </button>
+          <button type="button" id="sim-key-enter" class="sim-key-btn">
+            <i class="fa-solid fa-turn-down fa-rotate-90" aria-hidden="true"></i> [ENTER] Disparar Ação
+          </button>
+          <button type="button" id="sim-key-reset" class="sim-key-btn" style="color: var(--error-text);">
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Redefinir Foco
+          </button>
+        </div>
+
+        <div class="sim-sandbox-canvas" aria-label="Área de teste simulado de foco por teclado">
+          <button type="button" class="sandbox-target" data-sim-label="Menu Acadêmico">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i> Menu Acadêmico
+          </button>
+          <button type="button" class="sandbox-target" data-sim-label="Campo de Busca FACOM">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Buscar Disciplina
+          </button>
+          <button type="button" class="sandbox-target" data-sim-label="Download do PDF de AV2">
+            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Baixar AV2.pdf
+          </button>
+          <button type="button" class="sandbox-target" data-sim-label="Submeter Projeto de Extensão">
+            <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Submeter Projeto
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="laboratorio" class="section-container reveal-on-scroll" aria-labelledby="heading-lab">
+      <div class="section-header-block">
+        <span class="section-pill"><i class="fa-solid fa-flask" aria-hidden="true"></i> Laboratório de Código</span>
+        <h2 id="heading-lab" class="section-main-heading">Laboratório de Implementação: Batalha de IDEs</h2>
+        <p class="section-lead-text">
+          Compare o erro clássico de novatos em desenvolvimento com o padrão semântico exigido pela Engenharia de Software:
+        </p>
+      </div>
+
+      <div class="ide-battle-grid">
+        <div class="ide-window bad-code">
+          <div class="ide-titlebar">
+            <span><i class="fa-solid fa-file-code" aria-hidden="true"></i> anti-pattern.html</span>
+            <span class="badge-tag danger">❌ INACESSÍVEL</span>
+          </div>
+          <div class="ide-content">
+            <pre class="ide-pre"><code>&lt;!-- A clássica "Div Clickable" --&gt;
+&lt;div class="meu-botao" onclick="enviar()"&gt;
+  Salvar Matrícula
+&lt;/div&gt;
+
+&lt;!-- Falha: Não recebe foco via Tab --&gt;
+&lt;!-- Falha: Ignora Enter e Espaço --&gt;
+&lt;!-- Falha: Invisível para leitores de tela --&gt;</code></pre>
+            <div class="ide-verdict">
+              <strong>Veredito de Engenharia:</strong> O usuário de teclado e o usuário com deficiência visual são totalmente bloqueados de concluir a ação no sistema.
+            </div>
+          </div>
+        </div>
+
+        <div class="ide-window good-code">
+          <div class="ide-titlebar">
+            <span><i class="fa-solid fa-file-code" aria-hidden="true"></i> semantic-code.html</span>
+            <span class="badge-tag success">✅ 100% ACESSÍVEL</span>
+          </div>
+          <div class="ide-content">
+            <pre class="ide-pre"><code>&lt;!-- Botão Nativo Semântico --&gt;
+&lt;button type="button"
+        class="btn-primario"
+        onclick="enviar()"&gt;
+  Salvar Matrícula
+&lt;/button&gt;
+
+&lt;!-- Sucesso: Foco de teclado nativo --&gt;
+&lt;!-- Sucesso: Dispara com Enter e Espaço --&gt;
+&lt;!-- Sucesso: Anuncia role="button" --&gt;</code></pre>
+            <div class="ide-verdict">
+              <strong>Veredito de Engenharia:</strong> O navegador fornece nativamente todos os eventos assistivos sem overhead computacional.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="playground-box">
+        <h3 style="margin-top: 0; font-size: 1.4rem; display: flex; align-items: center; gap: 0.6rem;">
+          <i class="fa-solid fa-terminal" style="color: var(--primary);" aria-hidden="true"></i>
+          Teste ao Vivo: Validação Acessível e Monitor da Árvore ARIA
+        </h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+          Navegue pelo formulário à esquerda utilizando <strong>somente a tecla Tab</strong>. Observe à direita a atualização imediata dos atributos no monitor de acessibilidade em tempo real:
+        </p>
+
+        <div class="playground-split-grid">
+
+          <form id="demo-validation-form" class="interactive-form" novalidate>
+            <div class="field-wrapper">
+              <label for="demo-field-nome" class="field-label">
+                <i class="fa-solid fa-user" aria-hidden="true"></i> Nome do Acadêmico (obrigatório):
+              </label>
+              <input type="text"
+                     id="demo-field-nome"
+                     class="field-input"
+                     required
+                     aria-required="true"
+                     aria-describedby="hint-nome"
+                     placeholder="Ex: Natan Benites Arinos">
+              <span id="hint-nome" class="field-hint">Informe seu nome completo cadastrado na UFMS.</span>
+            </div>
+
+            <div class="field-wrapper">
+              <label for="demo-field-email" class="field-label">
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i> E-mail Institucional (obrigatório):
+              </label>
+              <input type="email"
+                     id="demo-field-email"
+                     class="field-input"
+                     required
+                     aria-required="true"
+                     aria-describedby="hint-email"
+                     placeholder="Ex: isadora.lopes@ufms.br">
+              <span id="hint-email" class="field-hint">Utilize seu endereço oficial do domínio @ufms.br.</span>
+            </div>
+
+            <button type="submit" class="btn-form-submit">
+              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Validar Acessibilidade do Formulário
+            </button>
+
+            <div id="demo-live-feedback" class="live-alert-feedback" role="alert" tabindex="-1"></div>
+          </form>
+
+          <div class="aria-inspector-monitor">
+            <div class="inspector-header">
+              <span class="inspector-title">
+                <i class="fa-solid fa-code-branch" aria-hidden="true"></i> Inspetor de Estado do DOM / AOM
+              </span>
+              <span class="badge-tag success">LIVE</span>
+            </div>
+
+            <ul class="aria-property-list" role="list">
+              <li class="aria-property-item">
+                <span class="aria-prop-name">Elemento Ativo:</span>
+                <span id="insp-current-focus" class="aria-prop-val">Nenhum (Clique ou dê Tab)</span>
+              </li>
+              <li class="aria-property-item">
+                <span class="aria-prop-name">aria-required:</span>
+                <span class="aria-prop-val">true</span>
+              </li>
+              <li class="aria-property-item">
+                <span class="aria-prop-name">aria-invalid:</span>
+                <span id="insp-aria-invalid" class="aria-prop-val">false</span>
+              </li>
+              <li class="aria-property-item">
+                <span class="aria-prop-name">aria-describedby:</span>
+                <span id="insp-aria-described" class="aria-prop-val">Nenhum</span>
+              </li>
+            </ul>
+
+            <div>
+              <span style="font-size: 0.82rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.4rem;">
+                <i class="fa-solid fa-volume-high" aria-hidden="true"></i> Leitura Sintetizada Emitida pelo Navegador:
+              </span>
+              <div id="insp-screen-reader-text" class="screen-reader-live-log">
+                Aguardando foco em algum campo de entrada...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="auditoria" class="section-container reveal-on-scroll" aria-labelledby="heading-auditoria">
+      <div class="section-header-block">
+        <span class="section-pill"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Validação e Métricas</span>
+        <h2 id="heading-auditoria" class="section-main-heading">Como Auditar e Comprovar a Acessibilidade?</h2>
+        <p class="section-lead-text">
+          Em Engenharia de Software, acessibilidade deve ser comprovada com auditorias híbridas (testes automatizados + simulações reais):
+        </p>
+      </div>
+
+      <div class="auditing-grid">
+        <div class="gauge-card">
+          <div class="gauge-circle">
+            <span class="gauge-number">100</span>
+            <span class="gauge-label">Lighthouse</span>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.3rem;">Score de Acessibilidade: 100/100</h3>
+            <p style="margin: 0.5rem 0 0 0; color: var(--text-muted); font-size: 0.95rem;">
+              Auditoria em conformidade total com os critérios de contraste, estrutura semântica, atributos ARIA e tags alt.
+            </p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <div class="hero-stat-card">
+            <h4 style="margin: 0 0 0.4rem 0; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-keyboard" style="color: var(--primary);" aria-hidden="true"></i> Teste 1: O Teste do "Mouse Desconectado"
+            </h4>
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">
+              Desconecte o mouse e realize todas as ações do seu sistema utilizando apenas <code>Tab</code>, <code>Shift + Tab</code>, <code>Enter</code> e <code>Espaço</code>. O foco visual nunca pode sumir.
+            </p>
+          </div>
+
+          <div class="hero-stat-card">
+            <h4 style="margin: 0 0 0.4rem 0; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-headphones" style="color: var(--accent);" aria-hidden="true"></i> Teste 2: O Teste de "Olhos Vendados" com NVDA
+            </h4>
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">
+              Abra o leitor NVDA no Windows, feche os olhos ou apague o monitor e navegue pela aplicação. Se você conseguir compreender os dados e preencher formulários com facilidade, sua página é inclusiva.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <div class="footer-col">
+          <h3>Universidade Federal de Mato Grosso do Sul</h3>
+          <p>
+            Faculdade de Computação (FACOM) • Curso: <strong>Engenharia de Computação</strong><br>
+            Disciplina: <strong>Introdução à Computação</strong><br>
+            Docente Responsável: <strong>Profª. Dra. Graziela Santos de Araujo</strong>
+          </p>
+          <p>
+            Atividade Avaliativa AV2 • Certificado de Extensão Universitária de 10 Horas.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Equipe de Desenvolvimento:</h4>
+          <ul class="footer-list" role="list">
+            <li><i class="fa-solid fa-user-graduate" aria-hidden="true"></i> <strong>Isadora Fernandes Lopes</strong></li>
+            <li><i class="fa-solid fa-user-graduate" aria-hidden="true"></i> <strong>Natan Benites Arinos</strong></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Normas e Padrões Aplicados:</h4>
+          <ul class="footer-list" role="list">
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> W3C WCAG 2.2 Níveis AA e AAA</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> eMAG v3.1 (Governo Brasileiro)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Lei Brasileira de Inclusão (Lei nº 13.146/15)</li>
+            <li><i class="fa-solid fa-check" aria-hidden="true"></i> Licença de Código Aberto MIT</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <span>
+          <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> a11y-foundations • Engenharia de Computação UFMS • Outubro/Novembro de 2026.
+        </span>
+        <span>
+          Código-fonte: <a href="https://github.com/isahlopess/a11y-foundations" target="_blank" rel="noopener noreferrer">github.com/isahlopess/a11y-foundations</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/accessibility.js"></script>
+</body>
+</html>
