@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAomInspector();
   initModalsAndShortcuts();
   initAnimatedCounters();
+  initMotorTremorSimulator();
 });
 
 function initScrollEffects() {
@@ -882,6 +883,10 @@ function initModalsAndShortcuts() {
           const fg = document.getElementById('calc-color-fg');
           if (fg) fg.focus();
         }
+      } else if (key === 'm') {
+        e.preventDefault();
+        const tremorBtn = document.getElementById('btn-sim-tremor-toggle');
+        if (tremorBtn) tremorBtn.click();
       }
     }
   });
@@ -920,4 +925,104 @@ function initAnimatedCounters() {
     };
     window.requestAnimationFrame(step);
   }
+}
+
+function initMotorTremorSimulator() {
+  const tremorBtnSim = document.getElementById('btn-sim-tremor-toggle');
+  const tremorBtnDrawer = document.getElementById('tool-motor-tremor');
+  const tremorStatusSpan = document.getElementById('sim-tremor-status');
+  const tremorCursor = document.getElementById('sim-tremor-cursor');
+  const tremorBanner = document.getElementById('tremor-active-banner');
+  const stopTremorBtn = document.getElementById('btn-stop-tremor');
+  const announcer = document.getElementById('global-a11y-announcer');
+
+  let isTremorActive = false;
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let animId = null;
+
+  function setTremorState(active) {
+    isTremorActive = active;
+    document.documentElement.classList.toggle('motor-tremor-active', isTremorActive);
+
+    if (tremorBtnSim) {
+      tremorBtnSim.setAttribute('aria-pressed', isTremorActive ? 'true' : 'false');
+      tremorBtnSim.classList.toggle('is-active', isTremorActive);
+    }
+    if (tremorStatusSpan) {
+      tremorStatusSpan.textContent = isTremorActive ? 'Ativado' : 'Desativado';
+    }
+    if (tremorBtnDrawer) {
+      tremorBtnDrawer.setAttribute('aria-pressed', isTremorActive ? 'true' : 'false');
+      tremorBtnDrawer.classList.toggle('is-active', isTremorActive);
+    }
+    if (tremorCursor) {
+      tremorCursor.classList.toggle('is-active', isTremorActive);
+    }
+    if (tremorBanner) {
+      tremorBanner.hidden = !isTremorActive;
+    }
+
+    const msg = isTremorActive
+      ? 'Simulação de tremor motor ativada. O ponteiro do mouse agora oscila involuntariamente para demonstrar a dificuldade de controle motor fino. Pressione Escape para desativar.'
+      : 'Simulação de tremor motor desativada.';
+    announce(announcer, msg);
+    if (isSpeechEnabled) {
+      speakText(msg);
+    }
+
+    if (isTremorActive) {
+      startTremorLoop();
+    } else {
+      stopTremorLoop();
+    }
+  }
+
+  function startTremorLoop() {
+    if (animId) cancelAnimationFrame(animId);
+
+    function loop(time) {
+      if (!isTremorActive) return;
+
+      const tremorX = Math.sin(time * 0.032) * 14 + (Math.random() - 0.5) * 10;
+      const tremorY = Math.cos(time * 0.027) * 12 + (Math.random() - 0.5) * 10;
+
+      if (tremorCursor) {
+        tremorCursor.style.left = `${mouseX + tremorX}px`;
+        tremorCursor.style.top = `${mouseY + tremorY}px`;
+      }
+
+      animId = requestAnimationFrame(loop);
+    }
+
+    animId = requestAnimationFrame(loop);
+  }
+
+  function stopTremorLoop() {
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }, { passive: true });
+
+  if (tremorBtnSim) {
+    tremorBtnSim.addEventListener('click', () => setTremorState(!isTremorActive));
+  }
+  if (tremorBtnDrawer) {
+    tremorBtnDrawer.addEventListener('click', () => setTremorState(!isTremorActive));
+  }
+  if (stopTremorBtn) {
+    stopTremorBtn.addEventListener('click', () => setTremorState(false));
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isTremorActive) {
+      setTremorState(false);
+    }
+  });
 }

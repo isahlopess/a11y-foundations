@@ -2249,3 +2249,86 @@ html.vision-deuteranopia {
   color: #ffffff;
   transform: translateY(-1px);
 }
+
+
+html.motor-tremor-active,
+html.motor-tremor-active * {
+  cursor: none !important;
+}
+
+.sim-tremor-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 100002;
+  display: none;
+  width: 22px;
+  height: 22px;
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+}
+
+.sim-tremor-cursor.is-active {
+  display: block;
+}
+
+.sim-tremor-dot {
+  width: 14px;
+  height: 14px;
+  background-color: var(--secondary);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.tremor-active-banner {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primary);
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  border: 2px solid var(--secondary);
+  box-shadow: var(--shadow-drawer);
+  z-index: 100001;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.tremor-active-banner[hidden] {
+  display: none !important;
+}
+
+.btn-stop-tremor {
+  background-color: #ffffff;
+  color: var(--primary);
+  border: none;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-stop-tremor:hover {
+  background-color: var(--primary-subtle);
+}
+
+.sim-key-tremor {
+  background-color: var(--primary-subtle);
+  border-color: var(--primary-border);
+  color: var(--primary);
+}
+
+.sim-key-tremor.is-active {
+  background-color: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}

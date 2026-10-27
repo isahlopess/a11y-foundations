@@ -117,6 +117,10 @@
             <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
             <span>Voz do Leitor de Tela</span>
           </button>
+          <button type="button" id="tool-motor-tremor" class="drawer-btn" aria-pressed="false">
+            <i class="fa-solid fa-hand-dots" aria-hidden="true"></i>
+            <span>Tremor Motor</span>
+          </button>
         </div>
       </section>
           <section class="drawer-group" aria-labelledby="group-vision-sim-title">
@@ -629,6 +633,9 @@
           <button type="button" id="btn-sim-speech-toggle" class="sim-key-btn sim-key-speech" aria-pressed="false">
             <i class="fa-solid fa-volume-high" aria-hidden="true"></i> Sintetizador de Voz: <span id="sim-speech-status">Desativado</span>
           </button>
+          <button type="button" id="btn-sim-tremor-toggle" class="sim-key-btn sim-key-tremor" aria-pressed="false">
+            <i class="fa-solid fa-hand-dots" aria-hidden="true"></i> Tremor Motor: <span id="sim-tremor-status">Desativado</span>
+          </button>
         </div>
 
         <div class="sim-sandbox-canvas" aria-label="Área de teste simulado de foco por teclado">
@@ -994,6 +1001,10 @@
               <td>Ativar ou desativar o Sintetizador de Voz ao Vivo</td>
             </tr>
             <tr>
+              <td><kbd class="kbd-cap">Alt</kbd> + <kbd class="kbd-cap">M</kbd></td>
+              <td>Ativar ou desativar o Simulador de Tremor Motor</td>
+            </tr>
+            <tr>
               <td><kbd class="kbd-cap">Alt</kbd> + <kbd class="kbd-cap">T</kbd></td>
               <td>Focar o Simulador de Navegação por Teclado</td>
             </tr>
@@ -1011,7 +1022,7 @@
             </tr>
             <tr>
               <td><kbd class="kbd-cap">Esc</kbd></td>
-              <td>Fechar qualquer menu lateral, modal ou aviso aberto</td>
+              <td>Fechar qualquer menu, modal ou desativar o tremor motor</td>
             </tr>
           </tbody>
         </table>
@@ -1019,5 +1030,14 @@
     </div>
   </div>
 
+  <div id="sim-tremor-cursor" class="sim-tremor-cursor" aria-hidden="true">
+    <div class="sim-tremor-dot"></div>
+  </div>
+
+  <div id="tremor-active-banner" class="tremor-active-banner" role="status" aria-live="polite" hidden>
+    <i class="fa-solid fa-hand-dots" aria-hidden="true"></i>
+    <span>Tremor Motor Ativo (Dificuldade de Controle Fino)</span>
+    <button type="button" id="btn-stop-tremor" class="btn-stop-tremor" aria-label="Desativar simulação de tremor motor">Desativar [Esc]</button>
+  </div>
 </body>
 </html>
