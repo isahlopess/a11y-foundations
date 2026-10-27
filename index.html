@@ -113,6 +113,42 @@
             <i class="fa-solid fa-link" aria-hidden="true"></i>
             <span>Destacar Links</span>
           </button>
+          <button type="button" id="tool-voice-synth" class="drawer-btn" aria-pressed="false">
+            <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+            <span>Voz do Leitor de Tela</span>
+          </button>
+        </div>
+      </section>
+          <section class="drawer-group" aria-labelledby="group-vision-sim-title">
+        <h3 id="group-vision-sim-title" class="drawer-group-title">
+          <i class="fa-solid fa-eye" aria-hidden="true"></i> Simulador de Condições Visuais
+        </h3>
+        <p class="drawer-group-subtitle">Experimente a interface sob a ótica de diferentes condições oftalmológicas:</p>
+        <div class="drawer-controls-grid vision-sim-grid">
+          <button type="button" class="drawer-btn vision-btn is-active" data-vision="normal" aria-pressed="true">
+            <i class="fa-solid fa-eye" aria-hidden="true"></i>
+            <span>Visão Normal</span>
+          </button>
+          <button type="button" class="drawer-btn vision-btn" data-vision="blur" aria-pressed="false">
+            <i class="fa-solid fa-water" aria-hidden="true"></i>
+            <span>Baixa Acuidade (Turva)</span>
+          </button>
+          <button type="button" class="drawer-btn vision-btn" data-vision="protanopia" aria-pressed="false">
+            <i class="fa-solid fa-palette" aria-hidden="true"></i>
+            <span>Protanopia (Sem Vermelho)</span>
+          </button>
+          <button type="button" class="drawer-btn vision-btn" data-vision="deuteranopia" aria-pressed="false">
+            <i class="fa-solid fa-droplet-slash" aria-hidden="true"></i>
+            <span>Deuteranopia (Sem Verde)</span>
+          </button>
+          <button type="button" class="drawer-btn vision-btn" data-vision="tunnel" aria-pressed="false">
+            <i class="fa-solid fa-circle-dot" aria-hidden="true"></i>
+            <span>Visão Tubular (Glaucoma)</span>
+          </button>
+          <button type="button" class="drawer-btn vision-btn" data-vision="macular" aria-pressed="false">
+            <i class="fa-solid fa-circle-notch" aria-hidden="true"></i>
+            <span>Degeneração Macular</span>
+          </button>
         </div>
       </section>
     </div>
@@ -137,6 +173,15 @@
           </span>
         </div>
         <div class="inst-right">
+          <button type="button" id="btn-topbar-shortcuts" class="btn-shortcuts-badge" aria-label="Abrir mapa de atalhos de teclado (Pressione Interrogação)">
+            <i class="fa-solid fa-keyboard" aria-hidden="true"></i>
+            <span>Atalhos</span>
+            <kbd class="kbd-cap">?</kbd>
+          </button>
+          <button type="button" id="btn-topbar-paper" class="btn-shortcuts-badge" aria-label="Consultar Artigo Científico da AV2 em LaTeX">
+            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
+            <span>Artigo AV2</span>
+          </button>
           <span class="inst-item">
             <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
             Docente: <strong>Profª. Dra. Graziela Santos de Araujo</strong>
@@ -186,7 +231,14 @@
         <p class="hero-lead">
           Na Engenharia de Computação, a acessibilidade conecta o hardware ao software: desde a integração de periféricos HID e terminais Braille até a estruturação semântica do DOM segundo as normas internacionais da <strong>WCAG 2.2</strong> e do <strong>eMAG</strong>.
         </p>
-
+        <div class="btn-hero-actions">
+          <button type="button" id="btn-open-paper-modal" class="btn-hero-academic">
+            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Ver Artigo Acadêmico em LaTeX
+          </button>
+          <button type="button" id="btn-hero-open-shortcuts" class="btn-hero-shortcuts">
+            <i class="fa-solid fa-keyboard" aria-hidden="true"></i> Atalhos de Teclado <kbd class="kbd-cap">?</kbd>
+          </button>
+        </div>
         <div class="hero-stats-row">
           <div class="hero-stat-card">
             <div class="hero-stat-number"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> 18,6M</div>
@@ -242,49 +294,99 @@
         </p>
       </div>
 
-      <div class="pipeline-track">
-        <div class="pipeline-step">
-          <div class="pipeline-step-header">
-            <div class="pipeline-step-number">1</div>
-            <span class="pipeline-eng-tag">Camada Software</span>
+      <div class="pipeline-bus-wrapper">
+        <div class="pipeline-bus-grid">
+          <div class="pipeline-bus-card">
+            <div class="pipeline-bus-header">
+              <span class="pipeline-bus-pin"><i class="fa-solid fa-microchip" aria-hidden="true"></i> BUS 0x01</span>
+              <span class="badge-tag success">CAMADA 1</span>
+            </div>
+            <h3 style="margin: 0; font-size: 1.15rem; color: var(--primary);">Entrada Física (HID)</h3>
+            <p style="margin: 0; font-size: 0.92rem; color: var(--text-muted);">
+              Switches táteis, terminais Braille ou teclados mecânicos disparam interrupções elétricas (IRQ) traduzidas em pacotes de bytes pelo protocolo USB HID.
+            </p>
           </div>
-          <h3>Código Semântico</h3>
-          <p>
-            O engenheiro de software utiliza tags nativas do padrão HTML5 (<code>&lt;button&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>) em vez de aglomerados de divs genéricas.
-          </p>
+
+          <div class="pipeline-bus-card">
+            <div class="pipeline-bus-header">
+              <span class="pipeline-bus-pin"><i class="fa-solid fa-code" aria-hidden="true"></i> BUS 0x02</span>
+              <span class="badge-tag success">CAMADA 2</span>
+            </div>
+            <h3 style="margin: 0; font-size: 1.15rem; color: var(--primary);">Código Semântico (HTML5)</h3>
+            <p style="margin: 0; font-size: 0.92rem; color: var(--text-muted);">
+              O desenvolvedor emprega elementos nativos determinísticos (<code>&lt;button&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>) com papéis e estados padronizados.
+            </p>
+          </div>
+
+          <div class="pipeline-bus-card">
+            <div class="pipeline-bus-header">
+              <span class="pipeline-bus-pin"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> BUS 0x03</span>
+              <span class="badge-tag success">CAMADA 3</span>
+            </div>
+            <h3 style="margin: 0; font-size: 1.15rem; color: var(--primary);">Compilação AOM</h3>
+            <p style="margin: 0; font-size: 0.92rem; color: var(--text-muted);">
+              O motor de renderização (Blink/Gecko) analisa o DOM e constrói em memória a <em>Accessibility Object Model</em>, alimentando as APIs nativas do SO.
+            </p>
+          </div>
+
+          <div class="pipeline-bus-card">
+            <div class="pipeline-bus-header">
+              <span class="pipeline-bus-pin"><i class="fa-solid fa-universal-access" aria-hidden="true"></i> BUS 0x04</span>
+              <span class="badge-tag success">CAMADA 4</span>
+            </div>
+            <h3 style="margin: 0; font-size: 1.15rem; color: var(--primary);">Emancipação Digital</h3>
+            <p style="margin: 0; font-size: 0.92rem; color: var(--text-muted);">
+              Sintetizadores de voz (NVDA/TalkBack) e linhas táteis recebem os dados sem perdas, garantindo autonomia plena ao usuário com deficiência.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="aom-interactive-container">
+        <div class="aom-header-strip">
+          <h3>
+            <i class="fa-solid fa-microchip" aria-hidden="true"></i>
+            Bancada de Engenharia: Compilação do DOM na Árvore de Acessibilidade (AOM)
+          </h3>
+          <span class="badge-tag success">COMPILAÇÃO EM TEMPO REAL</span>
         </div>
 
-        <div class="pipeline-step">
-          <div class="pipeline-step-header">
-            <div class="pipeline-step-number">2</div>
-            <span class="pipeline-eng-tag">Árvore AOM</span>
-          </div>
-          <h3>Accessibility Object Model</h3>
-          <p>
-            O navegador processa o DOM e compila a <em>Accessibility Tree</em>, atribuindo nomes, papéis (roles), estados e propriedades acessíveis a cada nó da interface.
-          </p>
+        <div class="aom-tabs-bar" role="tablist" aria-label="Componentes para compilação AOM">
+          <button type="button" class="aom-tab-btn is-active" role="tab" aria-selected="true" data-aom-tab="btn-semantic">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Botão Nativo Semântico
+          </button>
+          <button type="button" class="aom-tab-btn" role="tab" aria-selected="false" data-aom-tab="div-anti">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Div Clicável (Anti-pattern)
+          </button>
+          <button type="button" class="aom-tab-btn" role="tab" aria-selected="false" data-aom-tab="input-field">
+            <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Campo com Rótulo e Dica
+          </button>
+          <button type="button" class="aom-tab-btn" role="tab" aria-selected="false" data-aom-tab="nav-landmark">
+            <i class="fa-solid fa-compass" aria-hidden="true"></i> Marco de Navegação (Landmark)
+          </button>
         </div>
 
-        <div class="pipeline-step">
-          <div class="pipeline-step-header">
-            <div class="pipeline-step-number">3</div>
-            <span class="pipeline-eng-tag">Protocolo HID</span>
+        <div class="aom-viewport-split">
+          <div class="aom-column">
+            <div class="aom-column-header">
+              <span class="aom-column-title"><i class="fa-solid fa-code" aria-hidden="true"></i> 1. Código Fonte no DOM (HTML5)</span>
+            </div>
+            <pre id="aom-code-view" class="aom-code-display"></pre>
           </div>
-          <h3>Tecnologia Assistiva</h3>
-          <p>
-            O sistema operacional canaliza os nós da árvore para drivers de sintetizadores de voz (NVDA) ou interfaces seriais de displays táteis em braille.
-          </p>
-        </div>
 
-        <div class="pipeline-step">
-          <div class="pipeline-step-header">
-            <div class="pipeline-step-number">4</div>
-            <span class="pipeline-eng-tag">Resultado</span>
+          <div class="aom-bridge">
+            <span class="aom-bridge-chip"><i class="fa-solid fa-gears" aria-hidden="true"></i> Browser Engine</span>
+            <i class="fa-solid fa-arrow-right aom-bridge-arrow" aria-hidden="true"></i>
+            <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Mapeamento AOM</span>
           </div>
-          <h3>Autonomia Humana</h3>
-          <p>
-            O usuário com deficiência visual ou motora interage, submete formulários e consome informações com independência e equivalência de tempo.
-          </p>
+
+          <div class="aom-column">
+            <div class="aom-column-header">
+              <span class="aom-column-title"><i class="fa-solid fa-sitemap" aria-hidden="true"></i> 2. Nó Compilado na Árvore AOM</span>
+            </div>
+            <div id="aom-tree-view" class="aom-tree-card"></div>
+            <div id="aom-verdict-view" class="aom-verdict-box"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -513,16 +615,19 @@
 
         <div class="key-sim-toolbar">
           <button type="button" id="sim-key-tab" class="sim-key-btn">
-            <i class="fa-solid fa-right-long" aria-hidden="true"></i> [TAB] Avançar Foco
+            <i class="fa-solid fa-right-long" aria-hidden="true"></i> <kbd class="kbd-cap">Tab</kbd> Avançar Foco
           </button>
           <button type="button" id="sim-key-shifttab" class="sim-key-btn">
-            <i class="fa-solid fa-left-long" aria-hidden="true"></i> [Shift + TAB] Recuar
+            <i class="fa-solid fa-left-long" aria-hidden="true"></i> <kbd class="kbd-cap">Shift</kbd> + <kbd class="kbd-cap">Tab</kbd> Recuar
           </button>
           <button type="button" id="sim-key-enter" class="sim-key-btn">
-            <i class="fa-solid fa-turn-down fa-rotate-90" aria-hidden="true"></i> [ENTER] Disparar Ação
+            <i class="fa-solid fa-turn-down fa-rotate-90" aria-hidden="true"></i> <kbd class="kbd-cap">Enter</kbd> Disparar Ação
           </button>
           <button type="button" id="sim-key-reset" class="sim-key-btn" style="color: var(--error-text);">
-            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Redefinir Foco
+            <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> <kbd class="kbd-cap">R</kbd> Redefinir
+          </button>
+          <button type="button" id="btn-sim-speech-toggle" class="sim-key-btn sim-key-speech" aria-pressed="false">
+            <i class="fa-solid fa-volume-high" aria-hidden="true"></i> Sintetizador de Voz: <span id="sim-speech-status">Desativado</span>
           </button>
         </div>
 
@@ -677,6 +782,9 @@
               <div id="insp-screen-reader-text" class="screen-reader-live-log">
                 Aguardando foco em algum campo de entrada...
               </div>
+              <button type="button" id="btn-speak-screen-reader" class="btn-speak-now">
+                <i class="fa-solid fa-volume-high" aria-hidden="true"></i> Ouvir Leitura com Voz Sintética
+              </button>
             </div>
           </div>
         </div>
@@ -778,5 +886,138 @@
   </footer>
 
   <script src="js/accessibility.js"></script>
+  <div id="vision-overlay-tunnel" class="vision-overlay-tunnel" aria-hidden="true">
+    <div class="vision-tunnel-mask"></div>
+  </div>
+
+  <div id="vision-overlay-macular" class="vision-overlay-macular" aria-hidden="true">
+    <div class="vision-macular-spot"></div>
+  </div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;" aria-hidden="true">
+    <defs>
+      <filter id="protanopia-filter">
+        <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0  0.558, 0.442, 0, 0, 0  0, 0.242, 0.758, 0, 0  0, 0, 0, 1, 0" />
+      </filter>
+      <filter id="deuteranopia-filter">
+        <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0  0.7, 0.3, 0, 0, 0  0, 0.3, 0.7, 0, 0  0, 0, 0, 1, 0" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div id="academic-paper-modal" class="academic-modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="paper-modal-title">
+    <div class="academic-modal-container">
+      <div class="academic-modal-header">
+        <h2 id="paper-modal-title" class="academic-modal-title">
+          <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Artigo de Pesquisa Científica (LaTeX AV2)
+        </h2>
+        <button type="button" id="btn-close-paper-modal" class="btn-close-drawer" aria-label="Fechar visualizador do artigo">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="academic-modal-body">
+        <div class="academic-paper-header-box">
+          <h4>Acessibilidade em Sistemas Digitais: Garantindo a Inclusão Digital para Pessoas com Deficiência Visual e Motora</h4>
+          <p style="margin: 0 0 0.4rem 0;"><strong>Autores Discentes:</strong> Isadora Fernandes Lopes &amp; Natan Benites Arinos</p>
+          <p style="margin: 0 0 0.4rem 0;"><strong>Curso / Unidade:</strong> Engenharia de Computação — Faculdade de Computação (FACOM / UFMS)</p>
+          <p style="margin: 0 0 0.4rem 0;"><strong>Disciplina:</strong> Introdução à Computação | <strong>Docente:</strong> Profª. Dra. Graziela Santos de Araujo</p>
+          <p style="margin: 0;"><strong>Data de Conclusão:</strong> Novembro de 2026 | Arquivo original: <code>latex/main.tex</code></p>
+        </div>
+
+        <div>
+          <h3 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1.15rem;">Resumo Oficial (Abstract)</h3>
+          <p style="margin: 0; color: var(--text-muted);">
+            Este trabalho acadêmico apresenta uma investigação teórica e o desenvolvimento de um produto prático de extensão universitária voltado à acessibilidade em sistemas digitais, sob a perspectiva da Engenharia de Computação, com foco nas necessidades específicas de pessoas com deficiência visual e motora. A partir da integração entre camadas de hardware assistivo (interfaces USB HID, terminais braille dinâmicos e acionadores mecânicos) e camadas de software semântico (HTML5, CSS responsivo e manipulação da Árvore de Acessibilidade AOM), concebeu-se o projeto <em>a11y-foundations</em>. O artefato consiste em uma aplicação web interativa dotada de menu lateral de personalização, calculadora matemática de contraste em tempo real (WCAG 2.2), simulador de navegação por teclado e conformidade com o padrão eMAG v3.1. Discutem-se a conexão direta com a formação em Engenharia de Computação, as diretrizes da Lei Brasileira de Inclusão (Lei nº 13.146/2015) e o compromisso ético de transparência quanto ao uso de ferramentas de Inteligência Artificial.
+          </p>
+        </div>
+
+        <div>
+          <h3 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1.15rem;">Pergunta de Pesquisa</h3>
+          <div class="academic-quote-box">
+            "De que maneira a articulação entre padrões semânticos de software (HTML5/CSS), orientados pela WCAG 2.2, e dispositivos físicos de interface humana (HID) viabiliza a autonomia plena e a inclusão digital para pessoas com deficiência visual e motora?"
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1.15rem;">Fundamentação Técnica e Normativa</h3>
+          <ul style="margin: 0; padding-left: 1.25rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><strong>Lei Brasileira de Inclusão (Lei nº 13.146/2015, Art. 63):</strong> Torna compulsória a acessibilidade nos sítios de internet geridos por entes públicos e privados.</li>
+            <li><strong>WCAG 2.2 (W3C/WAI):</strong> Princípios POUR (Perceptível, Operável, Compreensível e Robusto) e cálculo de luminância matemática.</li>
+            <li><strong>Protocolo USB HID &amp; Pinos Piezoelétricos:</strong> Dispositivos de interface humana geram interrupções elétricas (IRQ) que alimentam terminais Braille dinâmicos e sintetizadores.</li>
+            <li><strong>Árvore de Acessibilidade (AOM):</strong> Camada em memória do navegador que expõe papéis, estados e propriedades aos leitores de tela sem perdas de semântica.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1.15rem;">Declaração de Transparência e Ética no Uso de IA</h3>
+          <p style="margin: 0; color: var(--text-muted);">
+            Em cumprimento às normas de integridade acadêmica, declara-se que ferramentas de IA generativa foram consultadas exclusivamente em caráter instrumental de apoio para refinamento da sintaxe matemática de luminância e esqueleto LaTeX. Todas as diretrizes normativas, testes com leitor NVDA, diagramas e códigos foram integralmente verificados, validados e construídos pelos autores discentes (Isadora Fernandes Lopes e Natan Benites Arinos).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="shortcuts-modal" class="shortcuts-modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="shortcuts-modal-title">
+    <div class="shortcuts-modal-container">
+      <div class="academic-modal-header">
+        <h2 id="shortcuts-modal-title" class="academic-modal-title">
+          <i class="fa-solid fa-keyboard" aria-hidden="true"></i> Guia Rápido de Teclas de Atalho
+        </h2>
+        <button type="button" id="btn-close-shortcuts-modal" class="btn-close-drawer" aria-label="Fechar guia de atalhos">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div style="padding: 1.5rem; overflow-y: auto;">
+        <table class="shortcuts-table" aria-label="Tabela de atalhos de teclado do sistema">
+          <thead>
+            <tr>
+              <th scope="col">Combinação de Teclas</th>
+              <th scope="col">Ação Executada no Sistema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd class="kbd-cap">?</kbd></td>
+              <td>Abrir ou fechar este Guia de Atalhos</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Alt</kbd> + <kbd class="kbd-cap">A</kbd></td>
+              <td>Abrir ou fechar o Painel de Preferências Visuais</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Alt</kbd> + <kbd class="kbd-cap">P</kbd></td>
+              <td>Abrir o Visualizador do Artigo Acadêmico em LaTeX</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Alt</kbd> + <kbd class="kbd-cap">V</kbd></td>
+              <td>Ativar ou desativar o Sintetizador de Voz ao Vivo</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Alt</kbd> + <kbd class="kbd-cap">T</kbd></td>
+              <td>Focar o Simulador de Navegação por Teclado</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Alt</kbd> + <kbd class="kbd-cap">C</kbd></td>
+              <td>Focar a Calculadora de Contraste WCAG</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Tab</kbd></td>
+              <td>Avançar para o próximo elemento focalizável</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Shift</kbd> + <kbd class="kbd-cap">Tab</kbd></td>
+              <td>Recuar para o elemento focalizável anterior</td>
+            </tr>
+            <tr>
+              <td><kbd class="kbd-cap">Esc</kbd></td>
+              <td>Fechar qualquer menu lateral, modal ou aviso aberto</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

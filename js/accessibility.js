@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initLiveContrastCalculator();
   initKeyboardSimulator();
   initInteractiveFormDemo();
+  initSpeechSynthesizer();
+  initVisionSimulator();
+  initAomInspector();
+  initModalsAndShortcuts();
+  initAnimatedCounters();
 });
 
 function initScrollEffects() {
@@ -420,4 +425,499 @@ function announce(element, text) {
   setTimeout(() => {
     element.textContent = text;
   }, 90);
+}
+
+let isSpeechEnabled = false;
+
+function getPtBrVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  return voices.find(v => v.lang === 'pt-BR' || v.lang === 'pt_BR') || voices.find(v => v.lang.startsWith('pt')) || null;
+}
+
+function speakText(text) {
+  if (!('speechSynthesis' in window) || !text) return;
+  try {
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+    }
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    if (!cleanText) return;
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1.05;
+    utterance.pitch = 1.0;
+    const voice = getPtBrVoice();
+    if (voice) utterance.voice = voice;
+    window.speechSynthesis.speak(utterance);
+  } catch (err) {}
+}
+
+function getAccessibleDescription(el) {
+  if (!el || el === document.body || el === document.documentElement) return '';
+
+  const tag = el.tagName.toLowerCase();
+  const role = el.getAttribute('role') || '';
+  const ariaLabel = el.getAttribute('aria-label');
+  const title = el.getAttribute('title');
+
+  let name = ariaLabel || title || el.innerText || el.textContent || '';
+  name = name.replace(/\s+/g, ' ').trim();
+  if (name.length > 140) name = name.substring(0, 140) + '...';
+
+  if (tag === 'button' || role === 'button') {
+    let state = '';
+    if (el.getAttribute('aria-pressed') === 'true') state += 'ativado. ';
+    else if (el.getAttribute('aria-pressed') === 'false') state += 'desativado. ';
+    if (el.getAttribute('aria-expanded') === 'true') state += 'expandido. ';
+    else if (el.getAttribute('aria-expanded') === 'false') state += 'recolhido. ';
+    return `Botão, ${name}. ${state}Pressione Enter para acionar.`;
+  }
+
+  if (tag === 'a' || role === 'link') {
+    return `Link, ${name}. Pressione Enter para navegar.`;
+  }
+
+  if (tag === 'input') {
+    const type = el.type || 'text';
+    let labelText = '';
+    if (el.id) {
+      const lbl = document.querySelector(`label[for="${el.id}"]`);
+      if (lbl) labelText = lbl.innerText.replace(/\s+/g, ' ').trim();
+    }
+    const finalName = labelText || name || el.placeholder || 'Campo';
+    const req = (el.required || el.getAttribute('aria-required') === 'true') ? 'obrigatório. ' : '';
+    let hint = '';
+    const descId = el.getAttribute('aria-describedby');
+    if (descId) {
+      const hintEl = document.getElementById(descId);
+      if (hintEl) hint = hintEl.innerText.replace(/\s+/g, ' ').trim();
+    }
+    const val = el.value ? `com texto: ${el.value}.` : 'em branco.';
+    return `Campo de texto ${finalName}, ${req}${val} ${hint}`;
+  }
+
+  if (role === 'tab') {
+    const sel = el.getAttribute('aria-selected') === 'true' ? 'selecionada. ' : 'não selecionada. ';
+    return `Aba de conteúdo, ${name}, ${sel}Pressione Enter para alternar.`;
+  }
+
+  if (tag.match(/^h[1-6]$/)) {
+    const level = tag.substring(1);
+    return `Título de nível ${level}, ${name}.`;
+  }
+
+  if (el.classList.contains('sandbox-target')) {
+    const simLabel = el.getAttribute('data-sim-label') || name;
+    return `Botão do simulador, ${simLabel}. Pressione Enter para disparar sinal HID.`;
+  }
+
+  if (el.classList.contains('hero-stat-card') || el.classList.contains('pipeline-bus-card') || el.classList.contains('persona-card')) {
+    return `Painel informativo, ${name}.`;
+  }
+
+  return name;
+}
+
+function initSpeechSynthesizer() {
+  const speechToggleBtn = document.getElementById('btn-sim-speech-toggle');
+  const speechStatusSpan = document.getElementById('sim-speech-status');
+  const drawerVoiceBtn = document.getElementById('tool-voice-synth');
+  const announcer = document.getElementById('global-a11y-announcer');
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = () => {
+      getPtBrVoice();
+    };
+  }
+
+  function setSpeechState(enabled) {
+    isSpeechEnabled = enabled;
+    if (speechToggleBtn) {
+      speechToggleBtn.setAttribute('aria-pressed', isSpeechEnabled ? 'true' : 'false');
+      speechToggleBtn.classList.toggle('is-active', isSpeechEnabled);
+    }
+    if (speechStatusSpan) {
+      speechStatusSpan.textContent = isSpeechEnabled ? 'Ativado' : 'Desativado';
+    }
+    if (drawerVoiceBtn) {
+      drawerVoiceBtn.setAttribute('aria-pressed', isSpeechEnabled ? 'true' : 'false');
+      drawerVoiceBtn.classList.toggle('is-active', isSpeechEnabled);
+    }
+
+    const msg = isSpeechEnabled
+      ? 'Sintetizador de voz ativado. Ao focar, clicar ou passar o mouse em botões e campos, o leitor de tela narrará em voz alta.'
+      : 'Sintetizador de voz desativado.';
+    announce(announcer, msg);
+    speakText(isSpeechEnabled ? 'Sintetizador de voz ativado. Navegue pelo site com o teclado ou mouse para ouvir os elementos.' : 'Sintetizador de voz desativado.');
+  }
+
+  if (speechToggleBtn) {
+    speechToggleBtn.addEventListener('click', () => {
+      setSpeechState(!isSpeechEnabled);
+    });
+  }
+
+  if (drawerVoiceBtn) {
+    drawerVoiceBtn.addEventListener('click', () => {
+      setSpeechState(!isSpeechEnabled);
+    });
+  }
+
+  const speakReaderBtn = document.getElementById('btn-speak-screen-reader');
+  const readerLog = document.getElementById('insp-screen-reader-text');
+  if (speakReaderBtn && readerLog) {
+    speakReaderBtn.addEventListener('click', () => {
+      const textToSpeak = readerLog.textContent.trim();
+      speakText(textToSpeak || 'Aguardando foco em algum elemento do formulário.');
+    });
+  }
+
+  document.addEventListener('focusin', (e) => {
+    if (!isSpeechEnabled) return;
+    const target = e.target;
+    if (!target) return;
+    const desc = getAccessibleDescription(target);
+    if (desc) {
+      speakText(desc);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!isSpeechEnabled) return;
+    const target = e.target.closest('button, a, input, [role="tab"], .sandbox-target');
+    if (!target) return;
+    if (target.id === 'btn-sim-speech-toggle' || target.id === 'tool-voice-synth') return;
+    const desc = getAccessibleDescription(target);
+    if (desc) {
+      speakText('Acionado: ' + desc);
+    }
+  });
+
+  let hoverTimeout = null;
+  let lastHovered = null;
+  document.addEventListener('mousemove', (e) => {
+    if (!isSpeechEnabled) return;
+    const target = e.target.closest('button, a, input, [role="tab"], h1, h2, h3, .sandbox-target, .hero-stat-card, .pipeline-bus-card');
+    if (!target || target === lastHovered) return;
+    lastHovered = target;
+    clearTimeout(hoverTimeout);
+    hoverTimeout = setTimeout(() => {
+      const desc = getAccessibleDescription(target);
+      if (desc) {
+        speakText(desc);
+      }
+    }, 280);
+  });
+}
+
+function initVisionSimulator() {
+  const visionButtons = document.querySelectorAll('.vision-btn');
+  const tunnelOverlay = document.getElementById('vision-overlay-tunnel');
+  const macularOverlay = document.getElementById('vision-overlay-macular');
+  const announcer = document.getElementById('global-a11y-announcer');
+
+  visionButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const condition = btn.getAttribute('data-vision');
+      visionButtons.forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      document.documentElement.classList.remove('vision-blur', 'vision-protanopia', 'vision-deuteranopia');
+      if (tunnelOverlay) tunnelOverlay.classList.remove('is-active');
+      if (macularOverlay) macularOverlay.classList.remove('is-active');
+
+      let labelMsg = 'Visão normal restaurada.';
+      if (condition === 'blur') {
+        document.documentElement.classList.add('vision-blur');
+        labelMsg = 'Simulação de baixa acuidade visual e catarata ativada.';
+      } else if (condition === 'protanopia') {
+        document.documentElement.classList.add('vision-protanopia');
+        labelMsg = 'Simulação de daltonismo protanopia (sem vermelho) ativada.';
+      } else if (condition === 'deuteranopia') {
+        document.documentElement.classList.add('vision-deuteranopia');
+        labelMsg = 'Simulação de daltonismo deuteranopia (sem verde) ativada.';
+      } else if (condition === 'tunnel') {
+        if (tunnelOverlay) tunnelOverlay.classList.add('is-active');
+        labelMsg = 'Simulação de visão tubular associada a glaucoma ativada.';
+      } else if (condition === 'macular') {
+        if (macularOverlay) macularOverlay.classList.add('is-active');
+        labelMsg = 'Simulação de escotoma central por degeneração macular ativada.';
+      }
+
+      announce(announcer, labelMsg);
+      if (isSpeechEnabled) {
+        speakText(labelMsg);
+      }
+    });
+  });
+}
+
+function initAomInspector() {
+  const codeView = document.getElementById('aom-code-view');
+  const treeView = document.getElementById('aom-tree-view');
+  const verdictView = document.getElementById('aom-verdict-view');
+  const tabs = document.querySelectorAll('.aom-tab-btn');
+
+  if (!codeView || !treeView || !verdictView || tabs.length === 0) return;
+
+  const aomData = {
+    'btn-semantic': {
+      html: `<button type="button"
+        aria-expanded="false"
+        aria-controls="menu-academico"
+        class="btn-ufms">
+  <i class="fa-solid fa-bars"></i>
+  <span>Menu Acadêmico</span>
+</button>`,
+      tree: [
+        { key: 'Role Nativo (AOM)', val: 'button' },
+        { key: 'Nome Acessível (Name)', val: '"Menu Acadêmico"' },
+        { key: 'Focusable (Tab Index)', val: 'true (Ordem Natural do DOM)' },
+        { key: 'Estado (State)', val: 'expanded: false | disabled: false' },
+        { key: 'Relação (Controls)', val: 'id("menu-academico")' },
+        { key: 'Protocolo de Entrada', val: 'USB HID: KEY_TAB / KEY_ENTER / IRQ' },
+        { key: 'Suporte Assistivo', val: 'NVDA, JAWS, VoiceOver, Display Braille' }
+      ],
+      verdictClass: 'success',
+      verdictText: '<i class="fa-solid fa-circle-check"></i> <strong>Conformidade Plena:</strong> Elemento nativo compilado com 100% de integridade na árvore AOM sem custo de script.'
+    },
+    'div-anti': {
+      html: `<div class="meu-botao"
+     onclick="abrirMenu()">
+  <i class="fa-solid fa-bars"></i>
+  <span>Menu Acadêmico</span>
+</div>`,
+      tree: [
+        { key: 'Role Nativo (AOM)', val: 'generic / none (Nó Invisível)' },
+        { key: 'Nome Acessível (Name)', val: 'null (Sem rótulo computado)' },
+        { key: 'Focusable (Tab Index)', val: 'false (Ignorado pela tecla Tab)' },
+        { key: 'Estado (State)', val: 'Indefinido pelo motor de acessibilidade' },
+        { key: 'Relação (Controls)', val: 'Nenhuma exposta na API nativa' },
+        { key: 'Protocolo de Entrada', val: 'Restrito exclusivamente a clique de mouse' },
+        { key: 'Suporte Assistivo', val: 'INACESSÍVEL: Usuário cego/motor não alcança' }
+      ],
+      verdictClass: 'danger',
+      verdictText: '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Falha Crítica de Engenharia:</strong> A Árvore AOM descarta a div, excluindo quem usa teclado ou leitor de tela.'
+    },
+    'input-field': {
+      html: `<label for="matricula-ufms">
+  Matrícula Acadêmica:
+</label>
+<input type="text"
+       id="matricula-ufms"
+       required
+       aria-required="true"
+       aria-describedby="hint-matr">
+<span id="hint-matr">Digite os 9 dígitos do RGA</span>`,
+      tree: [
+        { key: 'Role Nativo (AOM)', val: 'textbox (Campo de Texto Editável)' },
+        { key: 'Nome Acessível (Name)', val: '"Matrícula Acadêmica"' },
+        { key: 'Descrição (Description)', val: '"Digite os 9 dígitos do RGA"' },
+        { key: 'Focusable (Tab Index)', val: 'true' },
+        { key: 'Obrigatório (Required)', val: 'true' },
+        { key: 'Validação (Invalid)', val: 'false (Calculado pelo Constraint API)' },
+        { key: 'Leitura NVDA', val: '"Matrícula Acadêmica, edição obrigatório, Digite os 9 dígitos do RGA"' }
+      ],
+      verdictClass: 'success',
+      verdictText: '<i class="fa-solid fa-circle-check"></i> <strong>Mapeamento Perfeito:</strong> O leitor de tela lê o nome e a dica auxiliar sem ambiguidades.'
+    },
+    'nav-landmark': {
+      html: `<nav id="menu-principal"
+     aria-label="Navegação Institucional">
+  <ul role="list">
+    <li><a href="#hero">Início</a></li>
+    <li><a href="#lab">Laboratório</a></li>
+  </ul>
+</nav>`,
+      tree: [
+        { key: 'Role Nativo (AOM)', val: 'navigation (Marco Estrutural Landmark)' },
+        { key: 'Nome Acessível (Name)', val: '"Navegação Institucional"' },
+        { key: 'Atalho NVDA / JAWS', val: 'Tecla D (Salto entre marcos do sistema)' },
+        { key: 'Contagem de Filhos', val: 'list com 2 listitems interativos' },
+        { key: 'Papel na Engenharia', val: 'Permite que o usuário salte blocos repetitivos sem 40 cliques de Tab' }
+      ],
+      verdictClass: 'success',
+      verdictText: '<i class="fa-solid fa-circle-check"></i> <strong>Marco Semântico WCAG:</strong> Facilita a orientação espacial rápida para pessoas com deficiência visual.'
+    }
+  };
+
+  function renderAom(tabKey) {
+    const data = aomData[tabKey];
+    if (!data) return;
+
+    codeView.textContent = data.html;
+    treeView.innerHTML = data.tree.map(item => `
+      <div class="aom-prop-row">
+        <span class="aom-prop-key">${item.key}:</span>
+        <span class="aom-prop-val">${item.val}</span>
+      </div>
+    `).join('');
+
+    verdictView.className = 'aom-verdict-box ' + data.verdictClass;
+    verdictView.innerHTML = data.verdictText;
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      const tabKey = tab.getAttribute('data-aom-tab');
+      renderAom(tabKey);
+    });
+  });
+
+  renderAom('btn-semantic');
+}
+
+function initModalsAndShortcuts() {
+  const paperModal = document.getElementById('academic-paper-modal');
+  const shortcutsModal = document.getElementById('shortcuts-modal');
+  const openPaperBtn = document.getElementById('btn-open-paper-modal');
+  const topbarPaperBtn = document.getElementById('btn-topbar-paper');
+  const closePaperBtn = document.getElementById('btn-close-paper-modal');
+
+  const topbarShortcutsBtn = document.getElementById('btn-topbar-shortcuts');
+  const heroShortcutsBtn = document.getElementById('btn-hero-open-shortcuts');
+  const closeShortcutsBtn = document.getElementById('btn-close-shortcuts-modal');
+
+  let activeModal = null;
+  let previousFocusedElement = null;
+
+  function openModal(modal) {
+    if (!modal) return;
+    previousFocusedElement = document.activeElement;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    activeModal = modal;
+    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length) focusable[0].focus();
+  }
+
+  function closeModal(modal) {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    activeModal = null;
+    if (previousFocusedElement && typeof previousFocusedElement.focus === 'function') {
+      previousFocusedElement.focus();
+    }
+  }
+
+  if (openPaperBtn) openPaperBtn.addEventListener('click', () => openModal(paperModal));
+  if (topbarPaperBtn) topbarPaperBtn.addEventListener('click', () => openModal(paperModal));
+  if (closePaperBtn) closePaperBtn.addEventListener('click', () => closeModal(paperModal));
+
+  if (topbarShortcutsBtn) topbarShortcutsBtn.addEventListener('click', () => openModal(shortcutsModal));
+  if (heroShortcutsBtn) heroShortcutsBtn.addEventListener('click', () => openModal(shortcutsModal));
+  if (closeShortcutsBtn) closeShortcutsBtn.addEventListener('click', () => closeModal(shortcutsModal));
+
+  if (paperModal) {
+    paperModal.addEventListener('click', (e) => {
+      if (e.target === paperModal) closeModal(paperModal);
+    });
+  }
+  if (shortcutsModal) {
+    shortcutsModal.addEventListener('click', (e) => {
+      if (e.target === shortcutsModal) closeModal(shortcutsModal);
+    });
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (activeModal) {
+        closeModal(activeModal);
+      }
+      return;
+    }
+
+    if (e.key === '?' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+      e.preventDefault();
+      if (activeModal === shortcutsModal) {
+        closeModal(shortcutsModal);
+      } else {
+        openModal(shortcutsModal);
+      }
+      return;
+    }
+
+    if (e.altKey && !e.ctrlKey && !e.shiftKey) {
+      const key = e.key.toLowerCase();
+      if (key === 'a') {
+        e.preventDefault();
+        const openDrawerBtn = document.getElementById('btn-open-a11y-drawer');
+        if (openDrawerBtn) openDrawerBtn.click();
+      } else if (key === 'p') {
+        e.preventDefault();
+        if (activeModal === paperModal) closeModal(paperModal);
+        else openModal(paperModal);
+      } else if (key === 'v') {
+        e.preventDefault();
+        const speechBtn = document.getElementById('btn-sim-speech-toggle');
+        if (speechBtn) speechBtn.click();
+      } else if (key === 't') {
+        e.preventDefault();
+        const sim = document.getElementById('simulador-teclado');
+        if (sim) {
+          sim.scrollIntoView({ behavior: 'smooth' });
+          const firstTarget = sim.querySelector('.sandbox-target');
+          if (firstTarget) firstTarget.focus();
+        }
+      } else if (key === 'c') {
+        e.preventDefault();
+        const calc = document.getElementById('calculadora-contraste');
+        if (calc) {
+          calc.scrollIntoView({ behavior: 'smooth' });
+          const fg = document.getElementById('calc-color-fg');
+          if (fg) fg.focus();
+        }
+      }
+    }
+  });
+}
+
+function initAnimatedCounters() {
+  const statNumbers = document.querySelectorAll('.hero-stat-number, .gauge-number');
+  if (!('IntersectionObserver' in window)) return;
+
+  const counterObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        observer.unobserve(el);
+
+        if (el.classList.contains('gauge-number')) {
+          animateValue(el, 0, 100, 1200, '');
+        }
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(el => counterObserver.observe(el));
+
+  function animateValue(obj, start, end, duration, suffix) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      obj.textContent = Math.floor(progress * (end - start) + start) + suffix;
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      } else {
+        obj.textContent = end + suffix;
+      }
+    };
+    window.requestAnimationFrame(step);
+  }
 }
