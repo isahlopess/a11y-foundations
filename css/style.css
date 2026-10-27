@@ -83,7 +83,7 @@ body.high-contrast-mode {
   --shadow-lg: 0 0 0 3px #ffffff;
 }
 
-body.monochrome-mode {
+html.monochrome-mode {
   filter: grayscale(100%);
 }
 

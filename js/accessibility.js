@@ -128,7 +128,7 @@ function initContrastOptions() {
 
   if (monochromeBtn) {
     monochromeBtn.addEventListener('click', () => {
-      const isMono = document.body.classList.toggle('monochrome-mode');
+      const isMono = document.documentElement.classList.toggle('monochrome-mode');
       monochromeBtn.setAttribute('aria-pressed', isMono ? 'true' : 'false');
       announce(announcer, isMono
         ? 'Visualização monocromática ativada.'
