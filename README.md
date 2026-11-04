@@ -83,6 +83,6 @@ No Laragon:
 
 ## 📜 Licença e Créditos
 
-- **Autores:** Isadora Fernandes Lopes & Natan Benites Arinos (Engenharia de Computação • FACOM / UFMS).
+- **Autores:** Isadora Fernandes Lopes e Natan Benites Arinos (Engenharia de Computação • FACOM / UFMS).
 - **Docente:** Profª. Dra. Graziela Santos de Araujo.
 - **Licença:** Código aberto sob os termos da **MIT License**.

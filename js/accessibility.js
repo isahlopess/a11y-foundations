@@ -239,24 +239,43 @@ function initLiveContrastCalculator() {
     previewBox.style.color = cText;
 
     if (ratio >= 4.5) {
-      badgeAA.className = 'pill-status pass';
-      badgeAA.textContent = 'WCAG AA: APROVADO';
+      badgeAA.className = 'calc-led pass';
+      badgeAA.innerHTML = '<i class="fa-solid fa-circle-check" aria-hidden="true"></i> WCAG AA: APROVADO';
     } else {
-      badgeAA.className = 'pill-status fail';
-      badgeAA.textContent = 'WCAG AA: REPROVADO';
+      badgeAA.className = 'calc-led fail';
+      badgeAA.innerHTML = '<i class="fa-solid fa-circle-xmark" aria-hidden="true"></i> WCAG AA: REPROVADO';
     }
 
     if (ratio >= 7.0) {
-      badgeAAA.className = 'pill-status pass';
-      badgeAAA.textContent = 'WCAG AAA: APROVADO';
+      badgeAAA.className = 'calc-led pass';
+      badgeAAA.innerHTML = '<i class="fa-solid fa-circle-check" aria-hidden="true"></i> WCAG AAA: APROVADO';
     } else {
-      badgeAAA.className = 'pill-status fail';
-      badgeAAA.textContent = 'WCAG AAA: REPROVADO';
+      badgeAAA.className = 'calc-led fail';
+      badgeAAA.innerHTML = '<i class="fa-solid fa-circle-xmark" aria-hidden="true"></i> WCAG AAA: REPROVADO';
     }
+
+    const textHex = document.getElementById('calc-text-hex');
+    const bgHex = document.getElementById('calc-bg-hex');
+    if (textHex) textHex.textContent = cText.toUpperCase();
+    if (bgHex) bgHex.textContent = cBg.toUpperCase();
   }
 
   textColorInput.addEventListener('input', updateContrast);
   bgColorInput.addEventListener('input', updateContrast);
+
+  const presetBtns = document.querySelectorAll('.calc-key-btn');
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const fg = btn.getAttribute('data-fg');
+      const bg = btn.getAttribute('data-bg');
+      if (fg && bg) {
+        textColorInput.value = fg;
+        bgColorInput.value = bg;
+        updateContrast();
+      }
+    });
+  });
+
   updateContrast();
 }
 
@@ -546,6 +565,8 @@ function initSpeechSynthesizer() {
       drawerVoiceBtn.setAttribute('aria-pressed', isSpeechEnabled ? 'true' : 'false');
       drawerVoiceBtn.classList.toggle('is-active', isSpeechEnabled);
     }
+    const ttsLed = document.querySelector('.chassis-led.tts');
+    if (ttsLed) ttsLed.classList.toggle('active', isSpeechEnabled);
 
     const msg = isSpeechEnabled
       ? 'Sintetizador de voz ativado. Ao focar, clicar ou passar o mouse em botões e campos, o leitor de tela narrará em voz alta.'
@@ -791,6 +812,10 @@ function initModalsAndShortcuts() {
   const heroShortcutsBtn = document.getElementById('btn-hero-open-shortcuts');
   const closeShortcutsBtn = document.getElementById('btn-close-shortcuts-modal');
 
+  const sourcesModal = document.getElementById('sources-overlay-modal');
+  const openSourcesBtn = document.getElementById('btn-open-sources-overlay');
+  const closeSourcesBtn = document.getElementById('btn-close-sources-modal');
+
   let activeModal = null;
   let previousFocusedElement = null;
 
@@ -824,6 +849,9 @@ function initModalsAndShortcuts() {
   if (heroShortcutsBtn) heroShortcutsBtn.addEventListener('click', () => openModal(shortcutsModal));
   if (closeShortcutsBtn) closeShortcutsBtn.addEventListener('click', () => closeModal(shortcutsModal));
 
+  if (openSourcesBtn) openSourcesBtn.addEventListener('click', () => openModal(sourcesModal));
+  if (closeSourcesBtn) closeSourcesBtn.addEventListener('click', () => closeModal(sourcesModal));
+
   if (paperModal) {
     paperModal.addEventListener('click', (e) => {
       if (e.target === paperModal) closeModal(paperModal);
@@ -832,6 +860,11 @@ function initModalsAndShortcuts() {
   if (shortcutsModal) {
     shortcutsModal.addEventListener('click', (e) => {
       if (e.target === shortcutsModal) closeModal(shortcutsModal);
+    });
+  }
+  if (sourcesModal) {
+    sourcesModal.addEventListener('click', (e) => {
+      if (e.target === sourcesModal) closeModal(sourcesModal);
     });
   }
 
@@ -880,7 +913,7 @@ function initModalsAndShortcuts() {
         const calc = document.getElementById('calculadora-contraste');
         if (calc) {
           calc.scrollIntoView({ behavior: 'smooth' });
-          const fg = document.getElementById('calc-color-fg');
+          const fg = document.getElementById('calc-text-color');
           if (fg) fg.focus();
         }
       } else if (key === 'm') {
@@ -962,6 +995,8 @@ function initMotorTremorSimulator() {
     if (tremorBanner) {
       tremorBanner.hidden = !isTremorActive;
     }
+    const tremorLed = document.querySelector('.chassis-led.tremor');
+    if (tremorLed) tremorLed.classList.toggle('active', isTremorActive);
 
     const msg = isTremorActive
       ? 'Simulação de tremor motor ativada. O ponteiro do mouse agora oscila involuntariamente para demonstrar a dificuldade de controle motor fino. Pressione Escape para desativar.'
