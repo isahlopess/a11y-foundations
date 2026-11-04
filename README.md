@@ -29,16 +29,19 @@ O **a11y-foundations** conecta a teoria e a prática da Engenharia de Computaç�
 
 O repositório está dividido em duas frentes complementares:
 1. **Parte 1 (A Pesquisa):** Documentação científica em **LaTeX** no diretório [`latex/`](latex/), estruturada com fundamentação técnica, pergunta de pesquisa, embasamento legal (LBI nº 13.146/2015, WCAG 2.2 e eMAG v3.1), análise crítica na Engenharia de Computação e seção de transparência e ética no uso de IA.
-2. **Parte 2 (O Produto):** Aplicação web desenvolvida com **HTML5 Semântico**, **CSS3 Avançado** e **Vanilla JS puro**, com layout fluido expansivo (até 1580px), barra de progresso de scroll, efeitos de revelação suave, imagens contextuais de hardware assistivo e ferramentas interativas.
+2. **Parte 2 (O Produto):** Aplicação web desenvolvida com **HTML5 Semântico**, **CSS3 Avançado** e **Vanilla JS puro**, com layout fluido expansivo (até 1750px), barra de progresso de scroll, efeitos de revelação suave, imagens contextuais de hardware assistivo e ferramentas interativas.
 
 ---
 
-## 🚀 Ferramentas Interativas Implementadas
+## 🚀 Ferramentas Interativas e Recursos Implementados
 
-- **Barra de Progresso de Leitura:** Indicador visual de rolagem no topo da tela em tom azul sólido de alta visibilidade.
-- **Efeitos de Revelação Suave (Scroll Reveals):** Transições suaves à medida que as seções surgem no campo de visão (com suporte estrito a `prefers-reduced-motion`).
-- **ScrollSpy Ativo na Navbar:** Identificação luminosa da seção atualmente visível durante a navegação.
-- **Calculadora Interativa de Contraste WCAG 2.2:** Permite ao desenvolvedor selecionar cores em tempo real e calcular a razão matemática exata de luminância relativa com veredito para os níveis AA e AAA.
+- **Casos Reais Documentados na Computação:** Estudos de caso fundamentados com a Dra. Chieko Asakawa (inventora do *IBM Home Page Reader* e IBM Fellow), Lucas Radaelli (Tech Lead no Google), Dr. Stephen Hawking (*Intel ACAT*) e Christopher Hills (*Switch Access* USB HID), acompanhados do precedente da Suprema Corte dos EUA (*Robles v. Domino's Pizza, 2019*).
+- **Metadados Censitários e Fontes Oficiais Datadas:** Citações formais da PNAD Contínua 2022 (IBGE, jul/2023 • 18,6M de cidadãos), Censo Web para Todos / BigDataCorp 2023–2024 (< 1,5% de sites acessíveis) e auditoria técnica automatizada com Google Lighthouse v12 e axe-core v4.8 (100/100 em nov/2026).
+- **Sintetizador de Voz Nativo (Web Speech API pt-BR):** Narração auditiva ao vivo para navegação por teclado (<kbd>Tab</kbd>), cliques e exploração via mouse.
+- **Simulador de Tremor Motor (Espasmos / Perda de Controle Fino):** Emulação estocástica de cursor oscilante (<kbd>Alt</kbd> + <kbd>M</kbd>) demonstrando a dependência do protocolo HID e da área mínima de toque (WCAG 2.2 Target Size).
+- **Bancada de Engenharia AOM (Accessibility Object Model):** Visualizador interativo em duas colunas comparando o código HTML5 e o nó compilado na Árvore de Acessibilidade com vereditos técnicos.
+- **Simulador Óptico de Condições Visuais:** Simulação em tempo real na raiz do DOM para baixa acuidade (blur), daltonismos (protanopia/deuteranopia), visão tubular (glaucoma) e escotoma central (degeneração macular).
+- **Calculadora Interativa de Contraste WCAG 2.2:** Cálculo matemático exato da razão de luminância relativa com veredito para os níveis AA e AAA.
 - **Simulador Interativo de Entrada de Teclado (HID):** Emulador visual dos sinais de tecla `Tab`, `Shift + Tab`, `Enter` e `Reset`, demonstrando o deslocamento do anel de foco ininterrupto (`:focus-visible`).
 - **Painel Lateral Expansivo de Acessibilidade (Drawer):** Acesso a alternadores de alto contraste, modo monocromático, escala tipográfica (`rem`) e modo de leitura ampla.
 - **Laboratório de Batalha de IDEs:** Comparação direta de código entre anti-patterns e HTML semântico com validação ao vivo via `aria-live`.
