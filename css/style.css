@@ -410,6 +410,9 @@ a:hover {
   padding: 1.25rem;
   box-shadow: var(--shadow-sm);
   transition: transform 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .hero-stat-card:hover {
@@ -421,7 +424,7 @@ a:hover {
   font-size: 1.75rem;
   font-weight: 800;
   color: var(--primary);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -431,6 +434,10 @@ a:hover {
   font-size: 0.9rem;
   color: var(--text-muted);
   font-weight: 600;
+  line-height: 1.45;
+  min-height: 3.9rem;
+  display: flex;
+  align-items: flex-start;
 }
 
 .browser-mockup {
@@ -799,6 +806,7 @@ main {
   margin: 0;
   font-size: 1.35rem;
   font-weight: 800;
+  min-height: 2rem;
 }
 
 .hardware-info p {
@@ -806,6 +814,7 @@ main {
   color: var(--text-muted);
   font-size: 1.02rem;
   line-height: 1.6;
+  flex: 1;
 }
 
 .hardware-footer {
@@ -815,6 +824,9 @@ main {
   font-size: 0.85rem;
   color: var(--text-muted);
   font-style: italic;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: flex-start;
 }
 
 .workbench-anchor-offset {
@@ -2969,12 +2981,15 @@ html.motor-tremor-active * {
 
 
 .stat-source-meta {
-  margin-top: 0.65rem;
-  padding-top: 0.55rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
   border-top: 1px dashed var(--border-medium);
   font-size: 0.78rem;
   color: var(--text-muted);
   line-height: 1.4;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .stat-source-meta i {
@@ -2982,11 +2997,16 @@ html.motor-tremor-active * {
   margin-right: 0.25rem;
 }
 
+.stat-source-lead {
+  min-height: 3.1rem;
+}
+
 .stat-subdetail {
   display: block;
   font-size: 0.74rem;
   color: #64748b;
-  margin-top: 0.2rem;
+  margin-top: auto;
+  padding-top: 0.35rem;
 }
 
 .real-cases-showcase {
