@@ -221,18 +221,48 @@ a:hover {
 .institutional-topbar-inner {
   max-width: var(--container-max-width);
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.85rem;
+  gap: 1.25rem;
 }
 
-.inst-left, .inst-right {
+.inst-left {
   display: flex;
   align-items: center;
-  gap: 1.35rem;
+  justify-self: start;
+}
+
+.inst-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  justify-self: center;
+  text-align: center;
   flex-wrap: wrap;
+}
+
+.inst-right {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  text-align: right;
+}
+
+@media (max-width: 1080px) {
+  .institutional-topbar-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 0.65rem;
+  }
+  .inst-left, .inst-center, .inst-right {
+    justify-content: center;
+    justify-self: center;
+    text-align: center;
+  }
 }
 
 .inst-item {
@@ -440,71 +470,142 @@ a:hover {
   align-items: flex-start;
 }
 
-.browser-mockup {
+.engineering-display-rig {
   background-color: var(--bg-surface);
   border: 2px solid var(--border-medium);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 30px -6px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(2, 132, 199, 0.2);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.engineering-display-rig:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px -6px rgba(15, 23, 42, 0.2), 0 0 0 1.5px var(--primary);
+  border-color: var(--primary);
+}
+
+.rig-header-bar {
+  background-color: #0f172a;
+  color: #f8fafc;
+  padding: 0.7rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #1e293b;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  gap: 0.75rem;
+}
+
+.rig-title-block {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.rig-title-block i {
+  color: var(--secondary);
+}
+
+.rig-status-diode {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  display: inline-block;
+  flex-shrink: 0;
+  animation: diode-pulse 2.2s infinite ease-in-out;
+}
+
+@keyframes diode-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.rig-telemetry-tag {
+  display: flex;
+  align-items: center;
+}
+
+.rig-tag-pill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+}
+
+.rig-screen-frame {
+  position: relative;
+  background-color: #020617;
   overflow: hidden;
 }
 
-.browser-mockup-bar {
-  background-color: #e2e8f0;
-  padding: 0.75rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border-bottom: 1px solid var(--border-medium);
-}
-
-.browser-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-.dot.red { background-color: #ef4444; }
-.dot.yellow { background-color: #f59e0b; }
-.dot.green { background-color: #10b981; }
-
-.browser-address-bar {
-  flex: 1;
-  background-color: #ffffff;
-  padding: 0.35rem 0.85rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  color: #475569;
-  font-family: var(--font-mono);
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  border: 1px solid #cbd5e1;
-}
-
-.browser-mockup-body {
-  position: relative;
-}
-
-.browser-img {
+.rig-display-img {
   width: 100%;
   height: 350px;
   object-fit: cover;
   display: block;
 }
 
-.browser-mockup-caption {
-  padding: 1rem 1.25rem;
+
+
+.rig-telemetry-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   background-color: var(--bg-surface);
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1.5px solid var(--border-medium);
+}
+
+.rig-metric-unit {
+  padding: 0.85rem 0.95rem;
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.rig-metric-unit:last-child {
+  border-right: none;
+}
+
+.metric-key {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.metric-val {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+@media (max-width: 580px) {
+  .rig-telemetry-dashboard {
+    grid-template-columns: 1fr;
+  }
+  .rig-metric-unit {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .rig-metric-unit:last-child {
+    border-bottom: none;
+  }
+  .rig-tag-pill {
+    display: none;
+  }
 }
 
 main {
@@ -3308,4 +3409,15 @@ html.motor-tremor-active * {
 
 .sources-table td strong {
   color: var(--primary);
+}
+
+body.high-contrast-mode .engineering-display-rig {
+  border-color: #ffffff;
+  box-shadow: none;
+}
+
+body.high-contrast-mode .rig-header-bar,
+body.high-contrast-mode .rig-telemetry-dashboard {
+  background-color: #000000;
+  border-color: #ffffff;
 }

@@ -168,6 +168,12 @@
       <div class="institutional-topbar-inner">
         <div class="inst-left">
           <span class="inst-item">
+            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+            Docente: <strong>Profª. Dra. Graziela Santos de Araujo</strong>
+          </span>
+        </div>
+        <div class="inst-center">
+          <span class="inst-item">
             <i class="fa-solid fa-landmark" aria-hidden="true"></i>
             <strong>UFMS</strong> — Universidade Federal de Mato Grosso do Sul
           </span>
@@ -177,19 +183,6 @@
           </span>
         </div>
         <div class="inst-right">
-          <button type="button" id="btn-topbar-shortcuts" class="btn-shortcuts-badge" aria-label="Abrir mapa de atalhos de teclado (Pressione Interrogação)">
-            <i class="fa-solid fa-keyboard" aria-hidden="true"></i>
-            <span>Atalhos</span>
-            <kbd class="kbd-cap">?</kbd>
-          </button>
-          <button type="button" id="btn-topbar-paper" class="btn-shortcuts-badge" aria-label="Consultar Artigo Científico da AV2 em LaTeX">
-            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
-            <span>Artigo AV2</span>
-          </button>
-          <span class="inst-item">
-            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
-            Docente: <strong>Profª. Dra. Graziela Santos de Araujo</strong>
-          </span>
           <span class="inst-item">
             <i class="fa-solid fa-user-group" aria-hidden="true"></i>
             Discentes: <strong>Isadora Fernandes Lopes e Natan Benites Arinos</strong>
@@ -277,26 +270,34 @@
       </div>
 
       <div class="hero-right">
-        <div class="browser-mockup">
-          <div class="browser-mockup-bar">
-            <div class="browser-dots">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
+        <div class="engineering-display-rig">
+          <div class="rig-header-bar">
+            <div class="rig-title-block">
+              <span class="rig-status-diode" aria-hidden="true"></span>
+              <span><i class="fa-solid fa-microchip" aria-hidden="true"></i> BANCADA HID • UFMS/FACOM</span>
             </div>
-            <div class="browser-address-bar">
-              <i class="fa-solid fa-lock" aria-hidden="true"></i>
-              <span>https://facom.ufms.br/a11y-foundations</span>
+            <div class="rig-telemetry-tag">
+              <span class="rig-tag-pill">AMOSTRA TÁTIL PIEZOELÉTRICA</span>
             </div>
           </div>
-          <div class="browser-mockup-body">
+          <div class="rig-screen-frame">
             <img src="assets/img/header-terminal-braille.jpg"
                  alt="Estudante de Engenharia de Computação utilizando um terminal Braille dinâmico com pinos táteis conectado ao laptop em bancada de desenvolvimento de software."
-                 class="browser-img"
+                 class="rig-display-img"
                  loading="lazy">
-            <div class="browser-mockup-caption">
-              <i class="fa-solid fa-microchip" aria-hidden="true"></i>
-              <span>Hardware Assistivo: Terminal Braille dinâmico integrado via barramento USB a computador de engenharia.</span>
+          </div>
+          <div class="rig-telemetry-dashboard">
+            <div class="rig-metric-unit">
+              <span class="metric-key">Dispositivo HID</span>
+              <strong class="metric-val">Terminal Braille</strong>
+            </div>
+            <div class="rig-metric-unit">
+              <span class="metric-key">Barramento</span>
+              <strong class="metric-val">USB / Interrupção IRQ</strong>
+            </div>
+            <div class="rig-metric-unit">
+              <span class="metric-key">Compatibilidade</span>
+              <strong class="metric-val">Árvore AOM (WCAG 2.2)</strong>
             </div>
           </div>
         </div>
